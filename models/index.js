@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
 const db = {};
 const sequelize = new Sequelize(process.env.DB_NAME,process.env.DB_USERNAME,process.env.DB_PASSWORD,{
     dialect: "mysql",
-    host: "localhost",
+    host: process.env.DB_URL,
   });
 console.log('Registring Models ...')
 fs.readdirSync(__dirname)
