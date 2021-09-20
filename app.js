@@ -21,13 +21,12 @@ app.get('/',(req,res)=>{
         message:"Hello world!!"
     })
 })
-sequelize.sync({force: true,logging:false}).then(()=>{
+sequelize.sync({force: true}).then(()=>{
     app.listen(process.env.PORT || 8080,(p)=>{
         console.log("app started at http://localhost:"+ (process.env.PORT || 8080))
     })
 }).catch(err=>{
     console.log(err)
-    process.exit(-1)
 })
 
 module.exports = app
