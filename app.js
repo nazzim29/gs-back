@@ -30,4 +30,4 @@ sequelize.sync({force: true,logging:false}).then(()=>{
     process.exit(-1)
 })
 
-
+module.exports = app
