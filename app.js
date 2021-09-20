@@ -7,6 +7,7 @@ const {sequelize} = require('./models')
 require('./passport')
 
 
+
 const app = express()
 
 
@@ -21,9 +22,15 @@ app.get('/',(req,res)=>{
         message:"Hello world!!"
     })
 })
-sequelize.sync({force: true}).then(()=>{
-}).catch(err=>{
-    console.log(err)
-})
 
-module.exports = app
+
+module.exports = async () => {
+    try {
+        
+        await sequelize.sync({ force: true })
+    } catch (e) {
+        console.log(e)
+    }
+    
+    return app
+}
