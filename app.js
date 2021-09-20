@@ -1,10 +1,10 @@
-require('dotenv').config()
-const express =require('express')
-const bodyParser =require('body-parser')
-const cors =require('cors')
-const morgan =require('morgan')
-const {sequelize} = require('./models')
 launch = async () => {
+    require('dotenv').config()
+    const express =require('express')
+    const bodyParser =require('body-parser')
+    const cors =require('cors')
+    const morgan =require('morgan')
+    const {sequelize} = require('./models')
     require('./passport')
 
 
@@ -23,14 +23,13 @@ launch = async () => {
             message: "Hello world!!"
         })
     })
-
-
-    try {
-        
-        await sequelize.sync({ force: true })
-    } catch (e) {
-        throw e
-    }
-    return app
+    await sequelize.sync({ force: true, logging: false })
+    return app.listen(process.env.PORT || 8080, (p) => {
+        console.log(
+            "app started at http://localhost:" + (process.env.PORT || 8080)
+        );
+        return app
+    });
 }
 module.exports = launch
+launch()
