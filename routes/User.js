@@ -1,8 +1,8 @@
 const router = require('express').Router()
 const {UserController} = require('../controllers')
+const ParseParams = require('../middlewares/ParseQuery')
 
-
-router.get('/',UserController.index)
+router.get('/',ParseParams,UserController.index)
 router.get('/:id([0-9]+)',UserController.show)
 router.post('/',UserController.create)
 router.patch('/:id([0-9]+)',UserController.update)

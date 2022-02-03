@@ -1,13 +1,393 @@
 const { Produit, TypeProduit, Couleur } = require("../models");
 exports.index = async (req, res) => {
+	return res.json([
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+		{
+			quantite: 20,
+			prix: 10,
+			contenance: 10,
+			remise: 0,
+			featured: true,
+			Couleur: {
+				code: "569cd6",
+				nom:'bleu claire',
+			},
+			TypeProduit: {
+				nom: "Satiné"
+			}
+		},
+	]);
 	const produits = await Produit.findAll({
 		attributes: {
 			exclude: ["TypeProduitId", "CouleurId"],
 		},
 		include: [TypeProduit, Couleur],
 		where: {
-			TypeProduitId: req.query.type ? req.query.type : undefined,
-			CouleurId: req.query.couleur ? req.query.couleur : undefined,
+			TypeProduitId: req.query.type ? req.query.type : "",
+			CouleurId: req.query.couleur ? req.query.couleur : "",
 		},
 	});
 	return res.json(produits)

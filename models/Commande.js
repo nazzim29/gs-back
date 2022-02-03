@@ -1,15 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  const Commande = sequelize.define("Commande", {
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    vendu: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-  });
+  const Commande = sequelize.define(
+		"Commande",
+		{
+			date: {
+				type: DataTypes.DATE,
+				allowNull: false,
+			},
+			vendu: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
+			},
+		},
+		{
+			paranoid: true,
+		}
+	);
   Commande.associate = (models) => {
     Commande.belongsTo(models.Client, {
       foreignKey: {

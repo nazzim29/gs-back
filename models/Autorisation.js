@@ -9,11 +9,16 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    categorie: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique:false,
+    }
   });
 
   Autorisation.associate = (models) => {
-    Autorisation.belongsToMany(models.Fonction, {
-      through: "autorisations_fonctions",
+    Autorisation.belongsToMany(models.Profile, {
+      through: models.autorisations_fonctions,
     });
   };
 

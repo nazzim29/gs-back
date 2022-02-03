@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+  }, {
+    paranoid: true,
   });
   Adresse.associate = (models) => {
     Adresse.belongsTo(models.Client, {

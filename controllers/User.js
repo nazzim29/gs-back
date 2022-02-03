@@ -1,24 +1,42 @@
-const { User } = require("../models");
+const { User, Profile,Autorisation } = require("../models");
+const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 
 const jwtSign = (user) => {
-  const ONE_DAY = 60 * 60 * 24;
-  return jwt.sign(user, process.env.AUTH_SECRET, { expiresIn: ONE_DAY });
+  const ONE_DAY = "1 days";
+  return jwt.sign({id:user}, process.env.AUTH_SECRET);
 };
 
 exports.index = async (req, res) => {
-  const users = await User.findAll()
+
+  const users = await User.findAll({
+    where:req.where,
+    attributes: {
+      exlude: ['password','ProfileId']
+    },
+    include: {model: Profile, include : Autorisation}
+  })
   return res.json(users)
 };
 
 exports.show = async (req, res) => {
-  const user = await User.findOne({where:{id:req.params.id}})
+  const user = await User.findOne({
+		where: { id: req.params.id },
+		attributes: {
+			exlude: ["password", "ProfileId"],
+		},
+		include: Profile,
+	});
   return res.json(user)
 };
 
 exports.create = async (req, res) => {
-  const user = await User.create(req.body)
-  return res.json(user)
+  try {
+    let { password, ...user } = (await User.create(req.body)).toJSON()
+    return res.json(user)
+  } catch (err) {
+    return res.status(500).send(err.name || err.original.code)
+  }
 };
 
 exports.update = async (req, res) => {
@@ -33,7 +51,7 @@ exports.delete = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ where: { username: username } });
+    const user = await User.findOne({ where: { username: username }, include: [Profile] });
     if (!user)
       return res.status(403).send({ error: "Invalid login creditentials" });
 
@@ -63,3 +81,11 @@ exports.register = async (req, res) => {
     return res.status(403).send(err);
   }
 };
+
+
+exports.checklogin = async (req, res) => {
+  if (req.user) return res.status(200).send({ success: true, user : req.user.toJSON() });
+  return res.status(403).send({ success: false });
+}
+
+

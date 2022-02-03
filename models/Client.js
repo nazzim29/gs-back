@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
             );
         },
       },
+      paranoid: true,
     }
   );
   Client.associate = (models) => {

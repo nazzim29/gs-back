@@ -10,6 +10,8 @@ module.exports = (sequelize,DataTypes)=>{
             allowNull:false,
             defaultValue:false
         },
+    }, {
+        paranoid:true
     })
     Vente.associate = (models)=>{
         Vente.belongsTo(models.Client)

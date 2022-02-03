@@ -1,5 +1,7 @@
-module.exports = (sequelize,DataTypes)=>{
-    const Couleur = sequelize.define("Couleur", {
+module.exports = (sequelize, DataTypes) => {
+	const Couleur = sequelize.define(
+		"Couleur",
+		{
 			nom: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -7,12 +9,15 @@ module.exports = (sequelize,DataTypes)=>{
 			code: {
 				type: DataTypes.STRING,
 				allowNull: false,
-                unique: true,
-                
+				unique: true,
 			},
-		});
-    Couleur.associate = (models)=>{
-        // Couleur.hasMany(models.Produit)
-    }
-    return Couleur
-}
+		},
+		{
+			paranoid: true,
+		}
+	);
+	Couleur.associate = (models) => {
+		// Couleur.hasMany(models.Produit)
+	};
+	return Couleur;
+};

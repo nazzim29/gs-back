@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW,
       allowNull: false,
     },
+  }, {
+    paranoid: true,
   });
   Payement.associate = (models) => {
     Payement.belongsToMany(models.Commande, {

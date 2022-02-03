@@ -3,12 +3,8 @@ const { Autorisation } = require("../models");
 exports.index = async (req, res) => {
 	const autorisations = await Autorisation.findAll({
 		where: {
-			nom: req.query.nom?{
-				[Op.like]: "%" +req.query.nom+ "%",
-            }:undefined,
-            description: req.query.description ? {
-                [Op.like]:"%"+req.query.description+"%"
-            }:undefined
+			...req.query.nom && { nom: { [Op.like]: `%${req.query.nom}%` } },
+            ...req.query.description && {description:  { [Op.like]: `%${req.query.description}%` }}
 		},
     });
     return res.json(autorisations)

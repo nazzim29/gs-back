@@ -1,9 +1,10 @@
 const { TypeProduit } = require("../models");
+const { Op } = require("sequelize");
 exports.index = async (req, res) => {
 	const types = await TypeProduit.findAll({
 		where: {
 			nom: {
-				[Op.like]: "%" + (req.query.type||"") + "%",
+				[Op.like]: "%" + (req.query.nom||"") + "%",
 			},
 		},
     });

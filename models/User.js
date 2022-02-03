@@ -47,6 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         // beforeUpdate: hashPwd,
         beforeSave: hashPwd,
       },
+      paranoid : true,
     }
   );
 
@@ -54,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compareSync(password,this.password);
   }
   User.associate = (models) => {
-    User.belongsTo(models.Fonction);
+    User.belongsTo(models.Profile);
     User.hasMany(models.Client);
     User.hasMany(models.Adresse);
     User.hasMany(models.Commande);

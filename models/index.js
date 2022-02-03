@@ -21,6 +21,27 @@ fs.readdirSync(__dirname)
 			sequelize,
 			Sequelize.DataTypes
 		);
+		model.__proto__.updateOrCreate = async function (data) {
+			console.log(data)
+			const mm = await this.findOne(data);
+			if (mm) {
+				const  where = {}
+				let schema = await this.describe()
+				Object.keys(schema).forEach(key => {
+					console.log(key, schema[key].primaryKey);
+					if (schema[key].primaryKey) where[key] = data[key];
+				})
+				console.log(where)
+				return this.update(data, {where});
+			} else {
+				return this.create(data);
+			}
+		};
+		model.__proto__.bulkUpdateOrCreate = async function (datas) {
+			for (data in datas) {
+				await this.updateOrCreate(datas[data]);
+			}
+		}
 		db[model.name] = model;
 	});
 // console.log(db)
