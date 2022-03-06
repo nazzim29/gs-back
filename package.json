@@ -19,7 +19,13 @@
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.13",
     "passport": "^0.4.1",
+    "passport-http-bearer": "^1.0.1",
     "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.6.5"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.6",
+    "faker": "^6.6.6"
   }
 }

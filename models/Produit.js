@@ -2,34 +2,25 @@ module.exports = (sequelize, DataTypes) => {
 	const Produit = sequelize.define(
 		"Produit",
 		{
-			quantite: {
-				type: DataTypes.INTEGER.UNSIGNED,
+			nom: {
+				type: DataTypes.STRING,
 				allowNull: false,
-			},
-			prix: {
-				type: DataTypes.FLOAT.UNSIGNED,
-				allowNull: false,
+				allowEmpty: false,
 			},
 			contenance: {
 				type: DataTypes.INTEGER.UNSIGNED,
 				allowNull: false,
-			},
-			remise: {
-				type: DataTypes.INTEGER.UNSIGNED,
-				allowNull: false,
-				defaultValue: 0,
-				max: 100,
 			},
 			featured: {
 				type: DataTypes.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
 			},
-			couleur: {
-				type: DataTypes.STRING,
-				allowNull: false,
-				allowEmpty: false,
-			},
+			// prix: {
+			// 	type: DataTypes.VIRTUAL,
+			// 	get() {
+			// 		this.get
+			// }
 		},
 		{
 			paranoid: true,
@@ -37,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	Produit.associate = (models) => {
 		Produit.belongsToMany(models.Commande, {
-			through: "produits_commande",
+			through: models.produits_commande,
 		});
 		Produit.belongsToMany(models.Matiere, {
 			onDelete: "CASCADE",

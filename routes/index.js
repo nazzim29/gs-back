@@ -4,7 +4,7 @@ const { isAuth } = require('../middlewares/Auth')
 const passport = require("passport");
 module.exports = (app)=>{
     app.post('/register',UserController.register)
-    app.post('/login', UserController.login)
+    app.post('/login',passport.authenticate("local", { session: false }), UserController.login)
     app.get('/checklogin',isAuth(),UserController.checklogin)
     console.log('Registring Routes ...')
     fs.readdirSync(__dirname).filter(file=> file !== "index.js"&& file.endsWith('.js')).forEach((router)=>{

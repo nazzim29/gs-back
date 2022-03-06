@@ -1,15 +1,73 @@
-const {Commande} = require('../models')
-exports.index = async (req,res)=>{
-    const commandes = await Commande.findAll()
-    return res.json(commandes)
-}
+const { Commande, Client, User, Produit, Sequelize, sequelize } = require("../models");
+exports.index = async (req, res) => {
+	const commandes = await Commande.findAll({
+		include: [
+			Produit,
+			{
+				model: Client,
+				attributes: [
+					"id",
+					"raisonSociale",
+					"numero",
+					"numeroSecondaire",
+					"typeClientId",
+				],
+				include: ["TypeClient"],
+			},
+			{
+				model: User,
+				attributes: {
+					exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+				},
+			},
+		],
+		attributes: {
+			include: [
+				[sequelize.literal(
+					"sum(`Produits->produits_commande`.prix * `Produits->produits_commande`.quantite)"
+				),"montant"]
+			],
+			exclude: ["ClientId", "UserId"],
+		},
+		group:["Commande.id"]
+	});
+	return res.json(commandes);
+};
 exports.show = async (req, res) => {
 	const commande = await Commande.findOne({
+		include: [
+			Produit,
+			{
+				model: Client,
+				attributes: [
+					"id",
+					"raisonSociale",
+					"numero",
+					"numeroSecondaire",
+					"typeClientId",
+				],
+				include: ["TypeClient"],
+			},
+			{
+				model: User,
+				attributes: {
+					exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+				},
+			},
+		],
+		attributes: {
+			include: [
+				[sequelize.literal(
+					"sum(`Produits->produits_commande`.prix * `Produits->produits_commande`.quantite)"
+				),"montant"]
+			],
+			exclude: ["ClientId", "UserId"],
+		},
 		where: {
 			id: req.params.id,
 		},
 	});
-	return res.json(commande);
+	return res.json(await commande.toJSON());
 };
 exports.create = async (req, res) => {
 	const commande = await Commande.create(req.body);

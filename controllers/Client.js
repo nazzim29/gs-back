@@ -1,8 +1,20 @@
-const {Client} = require('../models')
+const { Op } = require('sequelize/types');
+const {Client,TypeClient} = require('../models')
 
 
 exports.index = async (req, res) => {
-    const clients = await Client.findAll()
+	const clients = await Client.findAll(
+		{
+			include: [TypeClient],
+			where: {
+				...req.query.TypeClientId && { TypeClientId: req.query.TypeClientId },
+				...req.query.raisonSociale && { raisonSociale: {[Op.substring] : req.query.raisonSociale} },
+				...req.query.numero && { numero: {[Op.substring] : req.query.numero} },
+				...req.query.numeroSecondaire && { numeroSecondaire: {[Op.substring] : req.query.numeroSecondaire} },
+
+			}
+		}
+	)
     return res.json(clients)
 
 }

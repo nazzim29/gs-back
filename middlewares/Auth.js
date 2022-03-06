@@ -1,7 +1,7 @@
 const passport = require("passport");
 
 exports.isAuth = (fonctionalite) => {
-	if (!fonctionalite) return passport.authenticate("jwt", { session: false })
+	if (!fonctionalite) return passport.authenticate("jwt", { session: false });
 	return [
 		passport.authenticate("jwt", { session: false }),
 		can(fonctionalite),
