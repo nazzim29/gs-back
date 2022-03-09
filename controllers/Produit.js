@@ -7,7 +7,8 @@ exports.index = async (req, res) => {
 		include: [TypeProduit, Couleur],
 		where: {
 			...req.query.type?{TypeProduitId: req.query.type}:{},
-			...req.query.couleur?{CouleurId: req.query.couleur}:{},
+			...req.query.couleur ? { CouleurId: req.query.couleur } : {},
+			...req.query.featured != 'true' ? {}: { featured: true },
 		},
 	});
 	return res.json(produits)
