@@ -35,3 +35,6 @@ sequelize
 	.catch((err) => {
 		throw err;
 	});
+
+
+module.exports = app;
