@@ -1,10 +1,19 @@
-const {Vente}= require('../models')
+const {Vente,Produit}= require('../models')
 exports.index = async (req,res)=>{
-    const ventes = await Vente.findAll()
+    const ventes = await Vente.findAll({
+        where:req.where
+    })
     return res.json(ventes)
 }
 exports.show = async (req,res)=>{
-    const vente = await Vente.findOne({ where: { id: req.params.id } });
+    const vente = await Vente.findOne({
+        where: { id: req.params.id },
+        include: [
+            {
+                model: Produit,
+            }
+        ]
+    });
     return res.json(vente)
 }
 exports.create = async (req,res)=>{

@@ -2,10 +2,13 @@ const {Op} = require('sequelize')
 module.exports = function (req, res, next) {
     let or = null
     req.where = {};
+    console.log(req.params)
     Object.keys(req.query).forEach(key => {
         if (Array.isArray(req.query[key])){
             req.where[key] = req.query[key];
-        } else {
+        } else if (req.query[key] == 'true') {
+            req.where[key] = true;
+        }else {
             if(!or) or = {}
             or[key] = {
                 [Op.like]: "%"+req.query[key]+"%"

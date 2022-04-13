@@ -16,11 +16,17 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: false,
 			},
-			// prix: {
-			// 	type: DataTypes.VIRTUAL,
-			// 	get() {
-			// 		this.get
-			// }
+			description: {
+				type: DataTypes.TEXT,
+				allowEmpty: false,
+				allowNull: false,
+			},
+			image: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				allowEmpty: false,
+				defaultValue: "default.jpg",
+			},
 		},
 		{
 			paranoid: true,
@@ -29,14 +35,6 @@ module.exports = (sequelize, DataTypes) => {
 	Produit.associate = (models) => {
 		Produit.belongsToMany(models.Commande, {
 			through: models.produits_commande,
-		});
-		Produit.belongsToMany(models.Matiere, {
-			onDelete: "CASCADE",
-			onUpdate: "CASCADE",
-			through: models.Formule,
-			foreignKey: {
-				allowNull: false,
-			},
 		});
 		Produit.belongsToMany(models.Vente, { through: models.produits_vente });
 		Produit.belongsTo(models.TypeProduit, {
@@ -53,6 +51,19 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: "CASCADE",
 			onUpdate: "CASCADE",
 		});
+		//m:n relation between matiere and produit through Formule
+		Produit.belongsToMany(models.Matiere, {
+			through: models.Formule,
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
+		Produit.hasMany(models.Production, {
+			foreignKey: {
+				allowNull: false,
+			},
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		})
 	};
 	return Produit;
 };

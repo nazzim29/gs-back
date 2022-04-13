@@ -6,10 +6,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 allowEmpty: false,
-            },
-			quantite: {
-				type: DataTypes.INTEGER.UNSIGNED,
-				allowNull: false,
 			},
 		},
 		{
@@ -18,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
 	);
 	Matiere.associate = (models) => {
 		Matiere.belongsToMany(models.Produit, {
-			through: models.Formule,
+			through: 'Formule',
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
+		Matiere.hasMany(models.achat_matieres, {
 			foreignKey: {
 				allowNull: false,
 			},
@@ -28,3 +28,4 @@ module.exports = (sequelize, DataTypes) => {
 	};
 	return Matiere;
 };
+	

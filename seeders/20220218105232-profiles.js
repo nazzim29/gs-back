@@ -1,14 +1,16 @@
 "use strict";
 const { faker } = require("@faker-js/faker");
 faker.locale = "fr";
-const profiles = [...Array(15)].map((user) => ({
-	nom: faker.name.jobType(),
-	description: faker.lorem.sentence(),
-	createdAt: new Date(),
-	updatedAt: new Date(),
-	couleur: faker.internet.color(),
-	icon: "ph:test-tube",
-}));
+const profiles = [...Array(15)].map((user) => {
+	return {
+		nom: faker.name.jobType(),
+		description: faker.lorem.sentence(),
+		createdAt: new Date(),
+		updatedAt: new Date(),
+		couleur: faker.internet.color(),
+		icon: "ph:test-tube",
+	};
+});
 module.exports = {
 	async up(queryInterface, Sequelize) {
 		/**
@@ -20,7 +22,21 @@ module.exports = {
 		 *   isBetaMember: false
 		 * }], {});
 		 */
-    await queryInterface.bulkInsert('profiles', profiles,{});
+		await queryInterface.bulkInsert(
+			"profiles",
+			[
+				{
+					nom: "admin",
+					description: "admin",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+					couleur: faker.internet.color(),
+					icon: "ph:test-tube",
+				},
+				...profiles,
+			],
+			{}
+		);
 	},
 
 	async down(queryInterface, Sequelize) {
@@ -30,6 +46,6 @@ module.exports = {
 		 * Example:
 		 * await queryInterface.bulkDelete('People', null, {});
 		 */
-    await queryInterface.bulkDelete("profiles", null, {});
+		await queryInterface.bulkDelete("profiles", null, {});
 	},
 };

@@ -5,13 +5,13 @@ faker.locale = "fr";
 
 const types = [
 	{
-		type: "revendeur",
+		type: "grossiste",
 		icon: "ph:test-tube",
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
 	{
-		type: "entreprie de batiment",
+		type: "detaillant",
 		icon: "ph:test-tube",
 		createdAt: new Date(),
 		updatedAt: new Date(),

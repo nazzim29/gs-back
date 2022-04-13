@@ -26,62 +26,46 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
 	try {
 		const { Autorisations } = req.body;
-		console.log(req.body);
 		let fonction = await Profile.update(req.body, {
 			where: { id: req.params.id },
-			include: { model: Autorisation, include: autorisations_fonctions },
-		}).then((id) => {
+			include: { model: Autorisation, include: {model:autorisations_fonctions} },
+		}).then(() => {
 			return Profile.findOne({
-				where: { id },
+				where: { id: req.params.id },
 			});
 		});
-		const currentAutorisations = await fonction.getAutorisations();
-		console.log(currentAutorisations);
-		for (let i in Autorisations) {
-			if (currentAutorisations.find((el) => el.id == Autorisations[i].id)) {
-				if (
-					currentAutorisations.find(
-						(el) =>
-							el.id == Autorisations[i].id &&
-							el.autorisations_fonctions.type ==
-							Autorisations[i].autorisations_fonctions.type
-					)
-				) continue;
-					await autorisations_fonctions.update(
-						{
-							ProfileId: fonction.id,
-							AutorisationId: Autorisations[i].id,
-							type: Autorisations[i].autorisations_fonctions.type || "all",
-						},
-						{
-							where: {
-								ProfileId: fonction.id,
-								AutorisationId: Autorisations[i].id,
-							},
-						}
-					);
-			} else {
-				await autorisations_fonctions.create({
-					ProfileId: fonction.id,
-					AutorisationId: Autorisations[i].id,
-					type: Autorisations[i].autorisations_fonctions.type || "all",
-				});
+		if (!fonction) return res.status(404).send('not found')
+		// update autorisations
+		let oldAut = await fonction.getAutorisations();
+		for (let autorisation of Autorisations) {
+			let f = oldAut.find(el => el.id == autorisation.id)
+			if (!f) {
+				try {
+					
+					await autorisations_fonctions.create({ ProfileId: fonction.id, AutorisationId: autorisation.id, type: autorisation.autorisations_fonctions.type })
+				} catch (err) {
+					return res.status(500).send({ error: true, message: 'todo://' })
+				}
+			} else if (f.autorisations_fonctions.type != autorisation.autorisations_fonctions.type) {
+				console.log(autorisation.autorisations_fonctions);
+				f.autorisations_fonctions.type = autorisation.autorisations_fonctions.type
+				try {
+					f.autorisations_fonctions.save()
+				} catch (err) {
+					console.log(err)
+				}
 			}
 		}
-		for (let i in currentAutorisations) {
-			if (!Autorisations.find((el) => el.id == currentAutorisations[i].id)) {
-				await autorisations_fonctions.destroy({
-					where: {
-						ProfileId: fonction.id,
-						AutorisationId: currentAutorisations[i].id,
-					},
-				});
+		// delete autorisations
+		for (let autorisation of oldAut) {
+			let b = Autorisations.find(el => {
+				return el.id == autorisation.id;
+			})
+			if (!b) {
+				await autorisation.autorisations_fonctions.destroy();
 			}
 		}
-		fonction = await Profile.findByPk(fonction.id, {
-			include: { model: Autorisation },
-		});
-		return res.json(fonction);
+		res.json(fonction);
 	} catch (err) {
 		console.log(err);
 	}

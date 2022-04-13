@@ -4,9 +4,8 @@ faker.locale = "fr";
 
 let i = 1
 const users = [...Array(100).fill(0).map(() => i++)]
-console.log(users)
-const clients = [...Array(100)].map((user) => ({
-  raisonSociale: faker.company.companyName(),
+const clients = [...Array(48)].map((user) => ({
+  raisonSociale: faker.name.firstName() +' '+faker.name.lastName(),
   numero: faker.phone.phoneNumber(),
   numeroSecondaire: faker.phone.phoneNumber(),
   createdAt: new Date(),
@@ -27,7 +26,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('clients', clients,{})
+      await queryInterface.bulkInsert('clients', clients,{})
   },
 
   async down (queryInterface, Sequelize) {

@@ -6,13 +6,7 @@ exports.index = async (req, res) => {
 	const clients = await Client.findAll(
 		{
 			include: [TypeClient],
-			where: {
-				...req.query.TypeClientId && { TypeClientId: req.query.TypeClientId },
-				...req.query.raisonSociale && { raisonSociale: {[Op.substring] : req.query.raisonSociale} },
-				...req.query.numero && { numero: {[Op.substring] : req.query.numero} },
-				...req.query.numeroSecondaire && { numeroSecondaire: {[Op.substring] : req.query.numeroSecondaire} },
-
-			}
+			where: req.where
 		}
 	)
     return res.json(clients)
@@ -27,8 +21,13 @@ exports.show = async (req, res) => {
 	return res.json(client);
 };
 exports.create = async (req, res) => {
-	const client = await Client.create(req.body);
-	return res.json(client);
+	console.log(req.body)
+	try {
+		const client = await Client.create({...req.body,UserId: req.user.id});
+		return res.json(client);
+	} catch (err) {
+		console.log(err)
+	}
 };
 exports.update = async (req, res) => {
 	const client = await Client.update(req.body, {
@@ -41,4 +40,11 @@ exports.delete = async (req, res) => {
 		where: { id: req.params.id },
 	});
 	return res.json(client);
+};
+exports.login = async (req, res) => {
+	res.send('ok')
+	// const client = await Client.destroy({
+	// 	where: { id: req.params.id },
+	// });
+	// return res.json(client);
 };

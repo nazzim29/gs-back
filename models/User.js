@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       hooks: {
         // beforeCreate: hashPwd,
-        // beforeUpdate: hashPwd,
+        beforeUpdate: hashPwd,
         beforeSave: hashPwd,
       },
       paranoid : true,

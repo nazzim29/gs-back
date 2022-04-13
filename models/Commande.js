@@ -1,19 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-	console.log(Object.keys(DataTypes))
 	const Commande = sequelize.define(
 		"Commande",
 		{
-			date: {
-				type: DataTypes.DATE,
-				allowNull: false,
-			},
 			etat: {
-				type: DataTypes.ENUM(
-					"en negiciation",
-					"en attente",
-					"traité partiellement",
-					"traité"
-				),
+				type: DataTypes.ENUM("en negiciation", "valide admin", "valide client","vendu"),
 				allowNull: false,
 				defaultValue: "en negiciation",
 			},
@@ -37,6 +27,47 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	);
 	Commande.associate = (models) => {
+		Commande.addScope(
+			"defaultScope",
+			{	
+				where: {
+					etat:"en negiciation"
+				},
+				include: [
+					{
+						model: models.Client,
+						attributes: [
+							"id",
+							"raisonSociale",
+							"numero",
+							"numeroSecondaire",
+							"typeClientId",
+						],
+						include: "TypeClient",
+						where: { deletedAt: null },
+					},
+					models.Produit,
+					{
+						model: models.User,
+						attributes: {
+							exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+						},
+					},
+				],
+				attributes: {
+					include: [
+						[
+							sequelize.literal(
+								"(SELECT SUM(produits_commandes.quantite * produits_commandes.prix) AS montant FROM  commandes LEFT JOIN produits_commandes ON commandes.id = produits_commandes.CommandeId LEFT JOIN produits ON produits.id = produits_commandes.ProduitId WHERE commandes.id = Commande.id)"
+							),
+							"montant",
+						],
+					],
+					exclude: ["ClientId", "UserId"],
+				},
+			},
+			{ override: true }
+		);
 		Commande.belongsTo(models.Client, {
 			foreignKey: {
 				allowNull: false,

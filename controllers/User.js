@@ -11,7 +11,7 @@ exports.index = async (req, res) => {
 	const users = await User.findAll({
 		where: req.where,
 		attributes: {
-			exlude: ["password", "ProfileId"],
+			exclude: ["password", "ProfileId"],
 		},
 		include: { model: Profile, include: Autorisation },
 	});

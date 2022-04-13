@@ -1,15 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
-	const Formule = sequelize.define(
-		"Formule",
-		{
-            quantite: {
-                type: DataTypes.INTEGER.UNSIGNED,
-                allowNull: false,
+	const Formule = sequelize.define("Formule", {
+        quantite: {
+            type: DataTypes.FLOAT.UNSIGNED,
+            allowNull: false,
+        },
+        MatiereId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: "Matiere",
+                key: "id",
             }
-		},
-		{
-			paranoid: true,
-		}
-	);
+        },
+        ProduitId: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            allowNull: false,
+            references: {
+                model: "Produit",
+                key: "id",
+            }
+        }
+	});
 	return Formule;
 };

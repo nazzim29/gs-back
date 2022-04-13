@@ -6,6 +6,8 @@ const users = [...Array(100)].map((user) => ({
 	nom: faker.name.firstName(),
 	prenom: faker.name.lastName(),
 	username: faker.internet.userName(),
+	createdAt: new Date(),
+	updatedAt: new Date(),
 	password: "$2a$10$vlrSwogWdc4eVU6sMxrU3OHYL2.vaodDigbvR8jPWMXwh1D677Lfm",
 	numero: faker.phone.phoneNumber(),
 	ProfileId: 1,
@@ -30,6 +32,8 @@ module.exports = {
 					nom: "admin",
 					prenom: "admin",
 					username: "admin",
+					createdAt: new Date(),
+					updatedAt: new Date(),
 					password:
 						"$2a$10$vlrSwogWdc4eVU6sMxrU3OHYL2.vaodDigbvR8jPWMXwh1D677Lfm",
 					numero: "0698151348",
