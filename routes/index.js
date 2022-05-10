@@ -7,7 +7,6 @@ module.exports = (app) => {
 	app.post("/register", UserController.register);
 	app.post(
 		"/login",
-		passport.authenticate("local", { session: false }),
 		UserController.login
 	);
 	app.get("/checklogin", isAuth(), UserController.checklogin);

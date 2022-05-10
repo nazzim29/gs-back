@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			prix: {
 				type: DataTypes.FLOAT,
-				allowNull: false,
+				allowNull: true,
 			},
 		},
 	);

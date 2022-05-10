@@ -1,10 +1,10 @@
-const { User, Profile, Autorisation } = require("../models");
+const { User, Profile, Autorisation,Client,TypeClient } = require("../models");
 const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const jwtSign = (user) => {
+const jwtSign = (user,type) => {
 	const ONE_DAY = "1 days";
-	return jwt.sign({ id: user.id }, process.env.AUTH_SECRET);
+	return jwt.sign({ id: user.id,type }, process.env.AUTH_SECRET);
 };
 
 exports.index = async (req, res) => {
@@ -51,9 +51,22 @@ exports.delete = async (req, res) => {
 	return res.json(user);
 };
 exports.login = async (req, res) => {
-	const {password,...user} = req.user.toJSON();
-	const token = jwtSign(user)
-	return res.send({ user, token });
+	const { username, password } = req.body;
+	const user = await User.findOne({
+		where: { username }, include: [{
+			model: Profile,
+			include: [Autorisation]
+	}] });
+	if (!user) {
+		const client = await Client.findOne({ where: { username }, include: [TypeClient] });
+		if (!client) return res.status(403).send({ success: false });
+		if (!client.verifyHash(password)) return res.status(403).send({ success: false });
+		const { p, ...userjson } = client.toJSON();
+		return res.send({ user: userjson, token: jwtSign(userjson,"client") });
+	}
+	if (!user.verifyHash(password)) return res.status(403).send({ success: false });
+	const { p, ...userjson } = user.toJSON();
+	return res.send({ user: userjson, token: jwtSign(userjson,"user") });
 };
 
 exports.register = async (req, res) => {

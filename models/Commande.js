@@ -7,6 +7,20 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				defaultValue: "en negiciation",
 			},
+			validationClient: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
+			},
+			validationAdmin: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
+			},
+			bonDeCommande: {
+				type: DataTypes.STRING,
+				allowNull:true,
+			}
 		},
 		{
 			paranoid: true,
@@ -30,9 +44,6 @@ module.exports = (sequelize, DataTypes) => {
 		Commande.addScope(
 			"defaultScope",
 			{	
-				where: {
-					etat:"en negiciation"
-				},
 				include: [
 					{
 						model: models.Client,
@@ -44,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 							"typeClientId",
 						],
 						include: "TypeClient",
-						where: { deletedAt: null },
+						// where: { deletedAt: null },
 					},
 					models.Produit,
 					{

@@ -32,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				notEmpty: true,
 			},
+			username: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+				notEmpty: true,
+			},
 		},
 		{
 			validate: {
