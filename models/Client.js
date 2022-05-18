@@ -85,6 +85,13 @@ module.exports = (sequelize, DataTypes) => {
 			onUpdate: "CASCADE",
 		});
 		Client.hasMany(models.Adresse);
+		console.log(models.ClientPanier);
+		Client.belongsToMany(models.Produit, {
+			through: models.ClientPanier,
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+			as: "Panier"
+		})
 	};
 	return Client;
 };

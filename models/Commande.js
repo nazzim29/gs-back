@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			bonDeCommande: {
 				type: DataTypes.STRING,
-				allowNull:true,
+				allowNull: true,
+				defaultValue: null,
 			}
 		},
 		{

@@ -9,7 +9,12 @@ const {
 
 const jwtDecode = (token) => {
 	const ONE_DAY = "1 days";
-	return jwt.verify(token, process.env.AUTH_SECRET);
+	try {
+		return jwt.verify(token, process.env.AUTH_SECRET);
+	} catch (error) {
+		throw new Error("unauthorized");
+		return null;
+	}
 };
 const parseUser = async (req, res, next) => {
 	const token = req.headers.authorization.split(" ")[1];
