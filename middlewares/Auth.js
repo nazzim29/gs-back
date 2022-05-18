@@ -17,6 +17,7 @@ const jwtDecode = (token) => {
 	}
 };
 const parseUser = async (req, res, next) => {
+	if(!req.headers.authorization) return res.status(401).json({error:"unauthorized"})
 	const token = req.headers.authorization.split(" ")[1];
 	const { type, id } = jwtDecode(token);
 	if (type == "client") {
