@@ -238,21 +238,7 @@ exports.validate = async (req, res) => {
 				{ transaction: transaction }
 			);
 		}
-		if (commande.validationClient && commande.validationAdmin) {
-			const vente = await Vente.create({
-				UserId: commande.UserId,
-				ClientId: commande.Client.id,
-			});
-			const produits = await commande.getProduits();
-			for (produit in produits) {
-				await vente.addProduit(produits[produit].id, {
-					through: {
-						quantite: produits[produit].produits_commande.quantite,
-						prix: produits[produit].produits_commande.prix,
-					},
-				});
-			}
-		}
+		
 		await transaction.commit();
 		return res.status(200).json({ success: true });
 	} catch (err) {
@@ -263,21 +249,41 @@ exports.validate = async (req, res) => {
 exports.saveBDC = async (req, res) => {
 	if (req.file) {
 		try {
-			console.log("hey");
+			const transaction = await sequelize.transaction();
 			let newpath = req.file.path + path.extname(req.file.originalname);
 			fs.rename(req.file.path, newpath, async (err) => {
 				if (err) return res.status(500).json({ error: "An error occured" });
 				await Commande.update(
-					{ bonDeCommande: newpath },
-					{ where: { id: req.params.id } }
-				).then(async () => {
-					return res.status(200).json({ success: true });
-				});
+					{
+						bonDeCommande: newpath,
+						etat: "vendu"
+					},
+					{ where: { id: req.params.id }, transaction }
+				)
+				const commande = await Commande.findByPk(req.params.id,{transaction});
+				if (commande.validationClient && commande.validationAdmin) {
+					const vente = await Vente.create({
+						UserId: commande.UserId,
+						ClientId: commande.Client.id,
+					},{transaction});
+					const produits = await commande.getProduits({ transaction });
+					for (produit in produits) {
+						await vente.addProduit(produits[produit].id, {
+							through: {
+								quantite: produits[produit].produits_commande.quantite,
+								prix: produits[produit].produits_commande.prix,
+							},
+							transaction,
+						});
+					}
+					await commande.destroy({transaction})
+				}
 			});
 		} catch (err) {
 			console.log(err);
 			return res.status(500).send();
 		}
+		
 	} else {
 		return res.status(400).send({ error: "No file uploaded" });
 	}

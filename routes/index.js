@@ -13,14 +13,14 @@ module.exports = (app) => {
     app.get("/dump", async (req, res) => {
         const fn = Date.now();
 		exec(
-			`mysqldump --databases --user=root --password="" gs-test > ./uploads/backups/${fn}.sql`,
+			`mysqldump --databases --host=${process.env.DB_URL} --user=${process.env.DB_USERNAME} --password="${process.env.DB_PASSWORD}" ${process.env.DB_NAME} > ./uploads/backups/${fn}.sql`,
 			(err, stdout, stderr) => {
 				if (err) {
-                    console.log(err);
-                    res.status(500).send(err);
+					console.log(err);
+					res.status(500).send(err);
 					return;
-                }
-                res.download(`./uploads/backups/${fn}.sql`);
+				}
+				res.download(`./uploads/backups/${fn}.sql`);
 			}
 		);
     });

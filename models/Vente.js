@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: DataTypes.NOW,
 			},
 			etat: {
-				type: DataTypes.ENUM("en attente", "en cours de livraison", "livree"),
+				type: DataTypes.ENUM("en cours de traitement", "en cours de livraison", "livrée"),
 				allowNull: false,
 				defaultValue: "en attente",
-			},
+			}, 
 		},
 		{
 			paranoid: true,
@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
                             exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
                         },
                     },
+                    {
+                        model: models.Produit,
+                        include:[models.TypeProduit,models.Couleur]
+                    }
                 ],
                 attributes: {
                     include: [

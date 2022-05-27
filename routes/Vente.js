@@ -1,10 +1,12 @@
 const router = require('express').Router()
 const {VenteController} = require('../controllers')
 const ParseQuery = require('../middlewares/ParseQuery.js')
-router.get('/',ParseQuery,VenteController.index)
-router.get('/:id([0-9]+)',VenteController.show)
-router.post('/',VenteController.create)
-router.patch('/:id([0-9]+)',VenteController.update)
-router.delete('/:id([0-9]+)',VenteController.delete)
+const { isAuth } = require("../middlewares/Auth");
+
+router.get('/',isAuth(),ParseQuery,VenteController.index)
+router.get('/:id([0-9]+)',isAuth(),VenteController.show)
+router.post("/", isAuth(), VenteController.create);
+router.patch("/:id([0-9]+)", isAuth(), VenteController.update);
+router.delete("/:id([0-9]+)", isAuth(), VenteController.delete);
 
 module.exports  = router;
