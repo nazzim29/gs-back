@@ -16,11 +16,6 @@ app.use(
 	})
 );
 app.options("*", cors());
-app.enableCors({
-	origin: true,
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-	credentials: true,
-});
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text({ extended: true }));
