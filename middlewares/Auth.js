@@ -21,25 +21,30 @@ const jwtDecode = (token) => {
 const parseUser = async (req, res, next) => {
 	if(!req.headers.authorization) return res.status(401).json({error:"unauthorized"})
 	const token = req.headers.authorization.split(" ")[1];
-	const { type, id } = jwtDecode(token);
-	if (type == "client") {
-		const client = await Client.findByPk(id, { include: [TypeClient] });
-		if (!client) return res.status(403).send({ message: "unauthorized" });
-		req.user = client;
+	try {
 		
-		return next();
-	} else if (type == "user") {
-		const user =  await User.findByPk(id, {
-			include: [
-				{
-					model: Profile,
-					include: [Autorisation],
-				},
-			],
-		});
-		if (!user) return res.status(403).send({ message: "unauthorized" });
-		req.user = user
-		return next()
+		const { type, id } = jwtDecode(token);
+		if (type == "client") {
+			const client = await Client.findByPk(id, { include: [TypeClient] });
+			if (!client) return res.status(403).send({ message: "unauthorized" });
+			req.user = client;
+			
+			return next();
+		} else if (type == "user") {
+			const user =  await User.findByPk(id, {
+				include: [
+					{
+						model: Profile,
+						include: [Autorisation],
+					},
+				],
+			});
+			if (!user) return res.status(403).send({ message: "unauthorized" });
+			req.user = user
+			return next()
+		}
+	} catch (err) {
+		res.status(403).send(err)
 	}
 	return res.status(403).send({ message: "unauthorized" });
 };
