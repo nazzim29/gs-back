@@ -5,6 +5,7 @@ const {
 	User,
 	Profile,
 	Autorisation,
+	Produit
 } = require("../models");
 
 const jwtDecode = (token) => {
@@ -12,6 +13,7 @@ const jwtDecode = (token) => {
 	try {
 		return jwt.verify(token, process.env.AUTH_SECRET);
 	} catch (error) {
+		console.log(error)
 		throw new Error("unauthorized");
 		return null;
 	}

@@ -6,7 +6,10 @@ exports.index = async (req, res) => {
 	const clients = await Client.findAll(
 		{
 			include: [TypeClient],
-			where: req.where
+			where: req.where,
+			exclude: [
+				'password'
+			]
 		}
 	)
     return res.json(clients)

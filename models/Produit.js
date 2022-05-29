@@ -57,6 +57,11 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: "CASCADE",
 			onUpdate: "CASCADE",
 		});
+		Produit.belongsToMany(models.Client, {
+			through: models.ClientPanier,
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
 		Produit.hasMany(models.Production, {
 			foreignKey: {
 				allowNull: false,

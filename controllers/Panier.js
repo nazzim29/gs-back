@@ -2,6 +2,7 @@ const {
 	Client,
 	TypeProduit,
 	Couleur,
+	Produit,
 	ClientPanier,
 	Commande,
 	sequelize,
@@ -9,11 +10,10 @@ const {
 } = require("../models");
 
 exports.index = async (req, res) => {
-	if (!req.user instanceof Client)
+	if (!(req.user instanceof Client))
 		return res.status(403).send({ error: "unauthorized" });
-	const panier = await req.user.getPanier({
-		include: [{ model: TypeProduit }, { model: Couleur }],
-	});
+	const panier = await req.user.getPanier();
+	console.log(panier)
 	return res.json(panier);
 };
 
@@ -22,6 +22,8 @@ exports.addToCart = async (req, res) => {
 		const { user } = req;
 		if (!user instanceof Client)
 			return res.status(403).send({ error: "unauthorized" });
+		console.log(Object.keys(user));
+		if(await req.user.hasPanier(req.params.id)) return res.status(400).send({error: "Produit déjà dans le panier"})
 		await req.user.addPanier(req.params.id, { through: { quantite: 1 } });
 		return this.index(req, res);
 	} catch (error) {
@@ -88,13 +90,18 @@ exports.validate = async (req, res) => {
 		);
 		for (let i in Produits) {
 			console.log(i, "/", Produits.length);
-			await produits_commande.create({
-				CommandeId: commande.id,
-				ProduitId: Produits[i].id,
-				quantite: Produits[i].ClientPanier.quantite,
-			},{transaction}).then(console.log);
+			await produits_commande
+				.create(
+					{
+						CommandeId: commande.id,
+						ProduitId: Produits[i].id,
+						quantite: Produits[i].ClientPanier.quantite,
+					},
+					{ transaction }
+				)
+				.then(console.log);
 		}
-		await user.setPanier([], { transaction })
+		await user.setPanier([], { transaction });
 		await transaction.commit();
 		return res.json([]);
 	} catch (error) {

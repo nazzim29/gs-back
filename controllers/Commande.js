@@ -276,7 +276,11 @@ exports.saveBDC = async (req, res) => {
 							transaction,
 						});
 					}
-					await commande.destroy({transaction})
+					await commande.destroy({ transaction })
+					res.send({id:vente.id});
+				}
+				else {
+					res.status(400).send({error:"Commande non validée"})
 				}
 			});
 		} catch (err) {

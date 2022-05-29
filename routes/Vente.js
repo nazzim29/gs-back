@@ -5,6 +5,7 @@ const { isAuth } = require("../middlewares/Auth");
 
 router.get('/',isAuth(),ParseQuery,VenteController.index)
 router.get('/:id([0-9]+)',isAuth(),VenteController.show)
+router.get('/:id([0-9]+)/facture',isAuth(),VenteController.downloadFacture)
 router.post("/", isAuth(), VenteController.create);
 router.patch("/:id([0-9]+)", isAuth(), VenteController.update);
 router.delete("/:id([0-9]+)", isAuth(), VenteController.delete);

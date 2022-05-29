@@ -52,21 +52,50 @@ exports.delete = async (req, res) => {
 };
 exports.login = async (req, res) => {
 	const { username, password } = req.body;
-	const user = await User.findOne({
-		where: { username }, include: [{
-			model: Profile,
-			include: [Autorisation]
-	}] });
-	if (!user) {
-		const client = await Client.findOne({ where: { username }, include: [TypeClient] });
-		if (!client) return res.status(403).send({ success: false });
-		if (!client.verifyHash(password)) return res.status(403).send({ success: false });
-		const { p, ...userjson } = client.toJSON();
-		return res.send({ user: userjson, token: jwtSign(userjson,"client") });
+	switch (req.body.type) {
+		case 'admin':
+			const user = await User.findOne({
+				where: { username },
+				include: [
+					{
+						model: Profile,
+						include: [Autorisation],
+					},
+				],
+			});
+			if (!user) return res.status(403).send({ success: false });
+			user.verifyHash(password).then((isValid) => {
+				if (!isValid) return res.status(403).send({ success: false });
+				const { p, ...userjson } = user.toJSON();
+				return res.send({ user: userjson, token: jwtSign(userjson, "user") });
+			})
+			break;
+		case 'client':
+			try {
+				
+				const client = await Client.findOne({ where: { username }, include: [TypeClient] });
+				if (!client) return res.status(403).send({ success: false });
+				
+				client.verifyHash(password).then((isValid) => {
+					console.log(isValid)
+					if (!isValid) return res.status(403).send({ success: false });
+					const { p, ...userjson } = client.toJSON();
+					return res.send({ user: userjson, token: jwtSign(userjson, "client") });
+				}).catch((err) => {
+					console.log(err)
+				})
+			} catch (err) {
+				console.log(err)
+				res.status(500).send(err)
+			}
+			break;
+		default:
+			return res.status(403).send({ success: false });
 	}
-	if (!user.verifyHash(password)) return res.status(403).send({ success: false });
-	const { p, ...userjson } = user.toJSON();
-	return res.send({ user: userjson, token: jwtSign(userjson,"user") });
+	
+	
+	
+	
 };
 
 exports.register = async (req, res) => {
