@@ -10,9 +10,11 @@ const FixObjectAsString = require("./middlewares/FixObjectAsString");
 var cron = require("node-cron");
 require("./utils/passport")(passport);
 const app = express();
-app.use(cors({
-	origin: "*",
-}));
+app.use(
+	cors({
+		origin: "http://localhost:8080/",
+	})
+);
 app.options("*", cors());
 app.enableCors({
 	origin: true,
