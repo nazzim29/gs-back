@@ -13,4 +13,7 @@ router.post(
 	passport.authenticate("client", { session: false }),
 	ClientController.login
 );
+router.get('/count', isAuth(), ClientController.count)
+router.get('/best-buyer', isAuth(), ClientController.bestBuyer)
+
 module.exports  = router;
