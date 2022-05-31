@@ -28,6 +28,7 @@ exports.show = async (req, res) => {
 			{
 				model: Produit,
 			},
+			
 		],
 	});
 	if (!vente) return res.status(404).json({ error: "vente not found" });

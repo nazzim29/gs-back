@@ -6,6 +6,7 @@ const {
 	Vente,
 	produits_commande,
 	User,
+	Payement,
 	sequelize,
 	TypeProduit,
 	Sequelize,
@@ -42,6 +43,7 @@ exports.index = async (req, res) => {
 	return res.json(commandes);
 };
 exports.show = async (req, res) => {
+	console.log(Payement)
 	const commande = await Commande.findByPk(req.params.id, {
 		include: [
 			{
@@ -52,10 +54,13 @@ exports.show = async (req, res) => {
 			{
 				model: Client,
 			},
+			{
+				model: Payement
+			}
 		],
 	});
-	console.log(commande);
-	return res.json(await commande.toJSON());
+	if(!commande) return res.status(404).send({error: "Commande not found"});
+	return res.json(commande);
 };
 exports.create = async (req, res) => {
 	const commande = await Commande.create({
