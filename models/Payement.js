@@ -7,6 +7,16 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   Payement.associate = (models) => {
+    Payement.addScope("defaultScope", {
+      //add computed total 
+      attributes: {
+        include: [
+          [
+            sequelize.literal('(SELECT SUM(ventes_payements.montant) AS total FROM ventes_payements where ventes_payements.PayementId = Payement.id)'),"montant"
+          ]
+        ]
+      }
+    });
     Payement.belongsTo(models.Client, {
       foreignKey: "ClientId",
       onDelete: "CASCADE",
