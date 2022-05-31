@@ -22,8 +22,10 @@ exports.index = async (req, res) => {
 	}
 };
 exports.show = async (req, res) => {
-	const vente = await Vente.findOne({
-		where: { id: req.params.id },
+	try {
+		
+		const vente = await Vente.findOne({
+			where: { id: req.params.id },
 		include: [
 			{
 				model: Produit,
@@ -37,7 +39,10 @@ exports.show = async (req, res) => {
 	console.log(req.user.id, vente.Client.id);
 	if (req.user instanceof Client && vente.Client.id !== req.user.id)
 		return res.status(403).json({ error: "access denied" });
-	return res.json(vente);
+		return res.json(vente);
+	} catch (err) {
+		console.log(err)
+	}
 };
 exports.create = async (req, res) => {
 	const vente = await Vente.create(req.body);

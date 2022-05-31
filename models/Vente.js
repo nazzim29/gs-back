@@ -60,7 +60,7 @@ module.exports = (sequelize, DataTypes) => {
 								],
 								[
 									sequelize.literal(
-										"(SELECT SUM(ventes_payements.montant) AS versement FROM ventes LEFT JOIN ventes_payements ON ventes.id = ventes_payements.VenteId WHERE ventes.id = Vente.id)"
+										"(SELECT SUM(ventes_payements.montant) AS versement FROM ventes_payements WHERE ventes_payements.VenteId = Vente.id)"
 									),
 									"versement",
 								],

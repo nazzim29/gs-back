@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       attributes: {
         include: [
           [
-            sequelize.literal('(SELECT SUM(ventes_payements.montant) AS total FROM ventes_payements where ventes_payements.PayementId = Payement.id)'),"montant"
+            sequelize.literal('(SELECT SUM(ventes_payements.montant) AS total FROM ventes_payements where ventes_payements.PayementId = Payements.id)'),"montant"
           ]
         ]
       }
