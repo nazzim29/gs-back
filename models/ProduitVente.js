@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
 	const ProduitVente = sequelize.define("produits_vente", {
 		quantite: {
-			type: DataTypes.INTEGER.UNSIGNED,
+			type: DataTypes.FLOAT.UNSIGNED,
 			allowNull: false,
 		},
 		prix: {

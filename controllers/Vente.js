@@ -1,10 +1,16 @@
-const { Vente, Produit, User, Client } = require("../models");
+const { Vente, Produit, User, Client,Payement } = require("../models");
 const fs = require('fs')
 const pdf = require("html-pdf");
 const moment = require("moment");
 const moustache = require("mustache");
 exports.index = async (req, res) => {
 	if (req.user instanceof User) {
+		const ventes = await Vente.findAll({
+			where: {
+				...req.where,
+			}
+		})
+		return res.json(ventes)
 	} else {
 		const ventes = await Vente.findAll({
 			where: {
@@ -22,6 +28,9 @@ exports.show = async (req, res) => {
 			{
 				model: Produit,
 			},
+			{
+				model: Payement
+			}
 		],
 	});
 	if (!vente) return res.status(404).json({ error: "vente not found" });

@@ -75,7 +75,6 @@ exports.login = async (req, res) => {
 				
 				const client = await Client.findOne({ where: { username }, include: [TypeClient] });
 				if (!client) return res.status(403).send({ success: false });
-				
 				client.verifyHash(password).then((isValid) => {
 					console.log(isValid)
 					if (!isValid) return res.status(403).send({ success: false });

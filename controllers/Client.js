@@ -51,3 +51,17 @@ exports.login = async (req, res) => {
 	// });
 	// return res.json(client);
 };
+
+exports.count = async (req, res) => {
+	const count = await Client.count();
+	return res.json({count});
+}
+exports.bestBuyer = async (req, res) => {
+
+	// order client by number of ventes
+	const clients = await Client.findAll({
+		include: [TypeClient],
+		
+	})
+	return res.json(clients)
+}
