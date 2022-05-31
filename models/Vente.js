@@ -8,10 +8,14 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: DataTypes.NOW,
 			},
 			etat: {
-				type: DataTypes.ENUM("en cours de traitement", "en cours de livraison", "livrée"),
+				type: DataTypes.ENUM(
+					"en cours de traitement",
+					"en cours de livraison",
+					"livrée"
+				),
 				allowNull: false,
-				defaultValue: "en attente",
-			}, 
+				defaultValue: "en cours de traitement",
+			},
 		},
 		{
 			paranoid: true,
@@ -20,50 +24,56 @@ module.exports = (sequelize, DataTypes) => {
 
 	Vente.associate = (models) => {
         Vente.addScope(
-            "defaultScope",
-            {
-                include: [
-                    {
-                        model: models.Client,
-                        attributes: [
-                            "id",
-                            "raisonSociale",
-                            "numero",
-                            "numeroSecondaire",
-                            "typeClientId",
-                        ],
-                        include: "TypeClient",
-                        where: { deletedAt: null },
-                    },
-                    {
-                        model: models.User,
-                        attributes: {
-                            exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
-                        },
-                    },
-                    {
-                        model: models.Produit,
-                        include:[models.TypeProduit,models.Couleur]
-                    }
-                ],
-                attributes: {
-                    include: [
-                        [
-                            sequelize.literal(
-                                "(SELECT SUM(produits_ventes.quantite * produits_ventes.prix) AS montant FROM  ventes LEFT JOIN produits_ventes ON ventes.id = produits_ventes.VenteId LEFT JOIN produits ON produits.id = produits_ventes.ProduitId WHERE ventes.id = Vente.id)"
-                            ),
-                            "montant",
-                        ],
-                    ],
-                    exclude: ["ClientId", "UserId"],
-                },
-            },
-            { override: true }
-        );
+					"defaultScope",
+					{
+						include: [
+							{
+								model: models.Client,
+								attributes: [
+									"id",
+									"raisonSociale",
+									"numero",
+									"numeroSecondaire",
+									"typeClientId",
+								],
+								include: "TypeClient",
+								where: { deletedAt: null },
+							},
+							{
+								model: models.User,
+								attributes: {
+									exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+								},
+							},
+							{
+								model: models.Produit,
+								include: [models.TypeProduit, models.Couleur],
+							},
+						],
+						attributes: {
+							include: [
+								[
+									sequelize.literal(
+										"(SELECT SUM(produits_ventes.quantite * produits_ventes.prix) AS montant FROM  ventes LEFT JOIN produits_ventes ON ventes.id = produits_ventes.VenteId LEFT JOIN produits ON produits.id = produits_ventes.ProduitId WHERE ventes.id = Vente.id)"
+									),
+									"montant",
+								],
+								[
+									sequelize.literal(
+										"(SELECT SUM(ventes_payements.montant) AS versement FROM ventes LEFT JOIN ventes_payements ON ventes.id = ventes_payements.VenteId WHERE ventes.id = Vente.id)"
+									),
+									"versement",
+								],
+							],
+							exclude: ["ClientId", "UserId"],
+						},
+					},
+					{ override: true }
+				);
         Vente.belongsToMany(models.Payement, {
-            through: "ventes_payement",
+            through: models.ventes_payement,
             onDelete: "CASCADE",
-            
+
         })
         Vente.belongsTo(models.Client);
 		Vente.belongsTo(models.User);

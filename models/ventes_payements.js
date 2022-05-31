@@ -1,11 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
-	const ProduitCommande = sequelize.define("", {
-		quantite: {
-			type: DataTypes.INTEGER.UNSIGNED,
-			allowNull: false,
-		},
-		prix: {
-			type: DataTypes.FLOAT,
+	const ProduitCommande = sequelize.define("ventes_payement", {
+		
+		montant: {
+			type: DataTypes.FLOAT.UNSIGNED,
 			allowNull: true,
 		},
 	});

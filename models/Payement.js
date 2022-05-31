@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: "CASCADE",
     });
     Payement.belongsToMany(models.Vente, {
-      through: "ventes_payement",
-      onDelete: "CASCADE",
-    });
+			through: models.ventes_payement,
+			onDelete: "CASCADE",
+		});
   };
   return Payement;
 };
