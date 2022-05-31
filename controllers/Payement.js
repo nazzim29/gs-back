@@ -1,6 +1,10 @@
-const {Payement} = require('../models')
+const {Payement,Client,User,Vente} = require('../models')
 exports.index = async (req,res)=>{
-    const payements = await Payement.findAll()
+    const payements = await Payement.findAll({
+        include: [
+            Client,User
+        ]
+    })
     return res.json(payements)
 }
 exports.show = async (req,res)=>{

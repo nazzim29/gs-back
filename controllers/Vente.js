@@ -5,6 +5,12 @@ const moment = require("moment");
 const moustache = require("mustache");
 exports.index = async (req, res) => {
 	if (req.user instanceof User) {
+		const ventes = await Vente.findAll({
+			where: {
+				...req.where,
+			}
+		})
+		return res.json(ventes)
 	} else {
 		const ventes = await Vente.findAll({
 			where: {

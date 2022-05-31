@@ -9,15 +9,19 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.NOW,
       allowNull: false,
     },
-  }, {
-    paranoid: true,
   });
   Payement.associate = (models) => {
-    Payement.belongsToMany(models.Commande, {
-      through: "payements_commande",
+    Payement.belongsTo(models.Client, {
+      foreignKey: "ClientId",
+      onDelete: "CASCADE",
+    });
+    Payement.belongsTo(models.User, {
+      foreignKey: "UserId",
+      onDelete: "CASCADE",
     });
     Payement.belongsToMany(models.Vente, {
-      through: "payements_vente",
+      through: "VentePayement",
+      onDelete: "CASCADE",
     });
   };
   return Payement;
