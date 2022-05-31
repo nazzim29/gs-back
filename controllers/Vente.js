@@ -1,4 +1,4 @@
-const { Vente, Produit, User, Client } = require("../models");
+const { Vente, Produit, User, Client,Payement } = require("../models");
 const fs = require('fs')
 const pdf = require("html-pdf");
 const moment = require("moment");
@@ -28,7 +28,9 @@ exports.show = async (req, res) => {
 			{
 				model: Produit,
 			},
-			
+			{
+				model: Payement
+			}
 		],
 	});
 	if (!vente) return res.status(404).json({ error: "vente not found" });

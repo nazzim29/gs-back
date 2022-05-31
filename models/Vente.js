@@ -60,7 +60,11 @@ module.exports = (sequelize, DataTypes) => {
             },
             { override: true }
         );
-        Vente.hasMany(models.Payement)
+        Vente.belongsToMany(models.Payement, {
+            through: "ventes_payement",
+            onDelete: "CASCADE",
+            
+        })
         Vente.belongsTo(models.Client);
 		Vente.belongsTo(models.User);
 		Vente.belongsToMany(models.Produit, {
