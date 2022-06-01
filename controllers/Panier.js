@@ -12,7 +12,7 @@ const {
 exports.index = async (req, res) => {
 	if (!(req.user instanceof Client))
 		return res.status(403).send({ error: "unauthorized" });
-	const panier = await req.user.getPanier({include:[TypeProduit]});
+	const panier = await req.user.getPanier({include:[TypeProduit,Couleur]});
 	console.log(panier)
 	return res.json(panier);
 };

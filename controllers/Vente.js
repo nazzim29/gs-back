@@ -1,4 +1,4 @@
-const { Vente, Produit, User, Client,Payement } = require("../models");
+const { Vente, Produit, User, Client,Payement,Sequelize } = require("../models");
 const fs = require('fs')
 const pdf = require("html-pdf");
 const moment = require("moment");
@@ -22,22 +22,37 @@ exports.index = async (req, res) => {
 	}
 };
 exports.show = async (req, res) => {
-	const vente = await Vente.findOne({
-		where: { id: req.params.id },
-		include: [
-			{
-				model: Produit,
-			},
-			{
-				model: Payement
-			}
-		],
-	});
+	try {
+		
+		const vente = await Vente.findOne({
+			where: { id: req.params.id },
+			include: [
+				{
+					model: Produit,
+				},
+				{
+					model: Payement,
+					attributes: {
+						include: [
+							[
+								Sequelize.literal(
+									"(SELECT SUM(ventes_payements.montant) AS total FROM ventes_payements where ventes_payements.PayementId = Payements.id)"
+								),
+								"montant",
+							],
+						],
+					},
+				},
+			],
+		});
 	if (!vente) return res.status(404).json({ error: "vente not found" });
 	console.log(req.user.id, vente.Client.id);
 	if (req.user instanceof Client && vente.Client.id !== req.user.id)
 		return res.status(403).json({ error: "access denied" });
-	return res.json(vente);
+		return res.json(vente);
+	} catch (err) {
+		console.log(err)
+	}
 };
 exports.create = async (req, res) => {
 	const vente = await Vente.create(req.body);

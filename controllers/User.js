@@ -52,6 +52,7 @@ exports.delete = async (req, res) => {
 };
 exports.login = async (req, res) => {
 	const { username, password } = req.body;
+	console.log('salut')
 	switch (req.body.type) {
 		case 'admin':
 			const user = await User.findOne({

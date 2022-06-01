@@ -1,10 +1,10 @@
 const router = require('express').Router()
 const {PayementController} = require('../controllers')
-
-router.get('/',PayementController.index)
-router.get('/:id([0-9]+)',PayementController.show)
-router.post('/',PayementController.create)
-router.patch('/:id([0-9]+)',PayementController.update)
-router.delete('/:id([0-9]+)',PayementController.delete)
+const {isAuth} = require('../middlewares/Auth')
+router.get('/',isAuth(),PayementController.index)
+router.get('/:id([0-9]+)',isAuth(),PayementController.show)
+router.post('/',isAuth(),PayementController.create)
+router.patch('/:id([0-9]+)',isAuth(),PayementController.update)
+router.delete('/:id([0-9]+)',isAuth(),PayementController.delete)
 
 module.exports  = router;
