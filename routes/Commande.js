@@ -30,4 +30,5 @@ router.get(
 // 	"/:id([0-9]+)/document",
 // 	CommandeController.getfacture
 // );
+router.get('/count', CommandeController.count)
 module.exports  = router;

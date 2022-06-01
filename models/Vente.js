@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.ENUM(
 					"en cours de traitement",
 					"en cours de livraison",
-					"livrée"
+					"livree"
 				),
 				allowNull: false,
 				defaultValue: "en cours de traitement",

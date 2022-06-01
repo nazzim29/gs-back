@@ -113,3 +113,7 @@ exports.checklogin = async (req, res) => {
 		return res.status(200).send({ success: true, user: req.user.toJSON() });
 	return res.status(403).send({ success: false });
 };
+exports.count = async (req, res) => {
+	const count = await User.count({ where: req.where });
+	return res.json(count);
+}

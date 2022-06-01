@@ -13,7 +13,7 @@ exports.index = async (req, res) => {
 			include: [
 				[
 					sequelize.literal(
-						"(SELECT SUM(quantite) FROM productions WHERE ProduitId = Produit.id) - (SELECT SUM(quantite) FROM produits_ventes WHERE produits_ventes.ProduitId = Produit.id)"
+						"(SELECT SUM(quantite) 	 FROM productions WHERE ProduitId = Produit.id) "
 					),
 					"quantite",
 				],

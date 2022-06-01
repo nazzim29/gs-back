@@ -112,3 +112,34 @@ exports.downloadFacture = async (req, res) => {
 			res.download(file.filename);
 		});
 };
+
+
+exports.count = async (req,res) => {
+	//count ventes by month
+	const ventes = await Vente.findAll({
+		where: {
+			...req.where,
+		},
+		attributes: [
+			[Sequelize.fn("MONTH", Sequelize.col("Vente.createdAt")), "month"],
+			[Sequelize.fn("YEAR", Sequelize.col("Vente.createdAt")), "year"],	
+			[Sequelize.fn("COUNT", Sequelize.col("Vente.id")), "count"],
+		],
+		group: ["month", "year"],
+	});
+	return res.json(ventes);
+}
+exports.tauxDePaiement = async (req, res) => {
+	//sum montant vente
+	const ventes = await Vente.findAll({
+		where: {
+			...req.where,
+		},
+		attributes: [
+			[Sequelize.fn("SUM", Sequelize.col("Vente.montant")), "montant"],
+			[Sequelize.fn("SUM", Sequelize.col("Vente.versement")), "paye"],
+		],
+	});
+	return res.json(ventes);
+
+}

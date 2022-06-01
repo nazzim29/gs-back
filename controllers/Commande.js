@@ -402,3 +402,10 @@ exports.getfacture = async (req, res) => {
     res.send(error);
   }
 };
+
+
+exports.count = async (req,res) => {
+	const total = await Commande.count();
+	const attente = await Commande.count({where:{etat:'en negiciation'}})
+	return res.status(200).json( {total,attente} );
+}
