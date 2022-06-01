@@ -51,6 +51,7 @@ exports.create = async (req, res) => {
 		return res.json(production);
 	} catch (err) {
 		console.log(err);
+		t.rollback();
 		return res.status(500).send(err.name || err.original.code);
 	}
 };

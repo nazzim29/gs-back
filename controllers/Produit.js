@@ -13,9 +13,15 @@ exports.index = async (req, res) => {
 			include: [
 				[
 					sequelize.literal(
-						"(SELECT SUM(quantite) 	 FROM productions WHERE ProduitId = Produit.id) "
+						"(SELECT SUM(quantite) FROM productions WHERE ProduitId = Produit.id)"
 					),
 					"quantite",
+				],
+				[
+					sequelize.literal(	
+						"(SELECT SUM(quantite) FROM produits_ventes LEFT JOIN ventes ON produits_ventes.VenteId =ventes.id WHERE produits_ventes.ProduitId = Produit.id AND ventes.etat <> 'en attente de livraison')"
+					),
+					"vendu",
 				],
 				[
 					sequelize.literal(

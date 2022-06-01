@@ -59,8 +59,13 @@ exports.create = async (req, res) => {
 	return res.json(vente);
 };
 exports.update = async (req, res) => {
-	const vente = await Vente.update(req.body, { where: { id: res.body.id } });
-	return res.json(vente);
+	try{
+		const vente = await Vente.update(req.body, { where: { id: req.params.id } });
+		return res.json(vente);
+
+	}catch(err){
+		console.log(err)
+	}
 };
 exports.delete = async (req, res) => {
 	const vente = await Vente.destroy({ where: { id: req.params.id } });
@@ -87,7 +92,7 @@ exports.downloadFacture = async (req, res) => {
 	const facture = moustache.render(facturetemplate, {
 		client: vente.Client,
 		commande: vente,
-		duplicatat:true,
+		duplicatat: req.user instanceof Client ? true : false,
 		produits: await vente.getProduits(),
 		moment: moment,
 		formatDate: function () {
@@ -108,7 +113,11 @@ exports.downloadFacture = async (req, res) => {
 			base: "private/template/facture/",
 			type: "pdf",
 		})
-		.toFile(function (err, file) {
+		.toFile(async function (err, file) {
+			console.log('cc')
+			if (req.user instanceof User && vente.etat == 'en cours de traitement') {
+				 await vente.update({ etat: "en cours de livraison" });
+			}
 			res.download(file.filename);
 		});
 };
@@ -143,3 +152,50 @@ exports.tauxDePaiement = async (req, res) => {
 	return res.json(ventes);
 
 }
+exports.getfacture = async (req, res) => {
+	try {
+		const vente = await Vente.findByPk(req.params.id);
+		//read file content as string
+		const file = fs.readFileSync("private/template/facture/index.html", "utf8");
+
+		//render file content as with mustach
+		console.log({vente});
+		const html = moustache.render(file, {
+			client: vente.Client,
+			commande: vente,
+			produits: await vente.getProduits(),
+			moment: moment,
+			duplicatat: false,
+			formatDate: function () {
+				if (!/Date\]$/.test(Object.prototype.toString.call(this))) {
+					return "Invalid Date:" + this;
+				}
+				return (
+					this.getDate() +
+					"/" +
+					(this.getMonth() + 1) +
+					"/" +
+					this.getFullYear()
+				);
+			},
+			subtotal: function () {
+				return this.prix * this.quantite;
+			},
+		});
+		console.log("aaaaaaaaaaaaaaaaaaaal")
+		pdf
+			.create(html, {
+				directory: "tmp",
+				base: "private/template/facture/",
+				type: "pdf",
+			})
+			.toStream(async function (err, stream) {
+				console.log(vente)
+				await vente.update({ etat: "en cours de livraison" });
+				stream.pipe(res);
+			});
+	} catch (error) {
+		console.log(error);
+		res.send(error);
+	}
+};

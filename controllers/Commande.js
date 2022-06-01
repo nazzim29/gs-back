@@ -363,7 +363,7 @@ exports.getfacture = async (req, res) => {
   try {
     const commande = await Commande.findByPk(req.params.id);
     //read file content as string
-    const file = fs.readFileSync("private/template/facture/index.html", "utf8");
+    const file = fs.readFileSync("private/template/facture/duplicatat.html", "utf8");
 
     //render file content as with mustach
     console.log(commande);
