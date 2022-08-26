@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const {Client,TypeClient} = require('../models')
+const {Client,TypeClient,Payement,Commande, sequelize} = require('../models')
 
 
 exports.index = async (req, res) => {
@@ -7,9 +7,12 @@ exports.index = async (req, res) => {
 		{
 			include: [TypeClient],
 			where: req.where,
-			exclude: [
-				'password'
-			]
+			attributes: {
+
+				exclude: [
+					'password'
+				]
+			}
 		}
 	)
     return res.json(clients)
@@ -20,6 +23,28 @@ exports.show = async (req, res) => {
 		where: {
 			id: req.params.id,
 		},
+		// remove password from rows
+		attributes: {
+			exclude: ["password"],
+
+		},
+		include: [
+			TypeClient,
+			{
+				model: Payement,
+				attributes: {
+					include: [
+						[
+							sequelize.literal(
+								"(SELECT SUM(ventes_payements.montant) FROM ventes_payements WHERE ventes_payements.PayementId = Payements.id)"
+							),
+							"montant_total",
+						],
+					],
+				},
+			},
+			Commande,
+		],
 	});
 	return res.json(client);
 };

@@ -87,12 +87,13 @@ module.exports = (sequelize, DataTypes) => {
 		Client.hasMany(models.Adresse);
 		Client.hasMany(models.Payement);
 		console.log(models.ClientPanier);
-		Client.belongsToMany(models.Produit, {
-			through: models.ClientPanier,
-			onDelete: "CASCADE",
-			onUpdate: "CASCADE",
-			as: "Panier"
-		})
+		Client.hasMany(models.Commande)
+		// Client.belongsToMany(models.Produit, {
+		// 	through: models.ClientPanier,
+		// 	onDelete: "CASCADE",
+		// 	onUpdate: "CASCADE",
+		// 	as: "Panier"
+		// })
 	};
 	return Client;
 };

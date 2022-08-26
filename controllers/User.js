@@ -8,6 +8,7 @@ const jwtSign = (user,type) => {
 };
 
 exports.index = async (req, res) => {
+	console.log("salut")
 	const users = await User.findAll({
 		where: req.where,
 		attributes: {
