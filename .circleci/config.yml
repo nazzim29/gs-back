@@ -12,4 +12,4 @@ jobs:
       - checkout
       - run:
           name: Run connected check on local runner
-          command: source .profile;cd /var/infra-vost && git pull && docker-compose up -d --remove-orphans --build vost-api
+          command: cd /var/infra-vost && git pull && docker-compose --env-file /var/infra-vost/.env up -d --remove-orphans --build vost-api
