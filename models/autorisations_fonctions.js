@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			freezeTableName: true,
-			tableName: "autorisation_fonctions",
+			tableName: "autorisations_fonctions",
 		}
 	);
   return func;
