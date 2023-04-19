@@ -15,7 +15,13 @@ router.post(
 	ProduitController.storeImage,
 	ProduitController.create
 );
-router.patch("/:id([0-9]+)", ProduitController.update);
+router.post(
+	"/:id([0-9]+)",
+	upload.single("image"),
+	FixObjectAsString,
+	ProduitController.storeImage,
+	ProduitController.update
+);
 router.delete("/:id([0-9]+)", ProduitController.delete);
 router.post("/:id([0-9]+)/formule", isAuth(), ProduitController.addFormule);
 router.delete(

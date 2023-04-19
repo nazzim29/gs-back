@@ -74,11 +74,11 @@ exports.create = async (req, res) => {
 exports.storeImage = async (req, res, next) => {
 	if (req.file) {
 		try {
-			console.log("hey");
 			let newpath = req.file.path + path.extname(req.file.originalname);
 			await fs.rename(req.file.path, newpath, (err) => {
 				req.body.image =
-					req.file.filename + path.extname(req.file.originalname);
+				req.file.filename + path.extname(req.file.originalname);
+				console.log("hey", req.body.image);
 				return next();
 			});
 		} catch (err) {
@@ -90,9 +90,9 @@ exports.storeImage = async (req, res, next) => {
 	}
 };
 exports.update = async (req, res) => {
+	const t = await sequelize.transaction();
 	try {
 		
-		const t = await sequelize.transaction();
 		const produit = await Produit.update(req.body, {
 			where: { id: req.params.id },
 			transaction: t,
