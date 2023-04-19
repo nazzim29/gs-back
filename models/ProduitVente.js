@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			freezeTableName: true,
-			tableName: "produit_ventes",
+			tableName: "produits_ventes",
 		}
 	);
 	return ProduitVente;

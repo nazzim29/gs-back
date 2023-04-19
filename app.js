@@ -56,8 +56,8 @@ app.get("/", passport.authenticate("jwt", {}), (req, res) => {
 });
 sequelize
 	.sync({
-		force: !!parseInt(process.env.PRODUCTION_MODE),
-		logging: !parseInt(process.env.PRODUCTION_MODE),
+		force: false,//!!parseInt(process.env.PRODUCTION_MODE),
+		logging: !!parseInt(process.env.PRODUCTION_MODE),
 	})
 	.then(() => {
 		return app.listen(process.env.PORT || 2931, (p) => {
