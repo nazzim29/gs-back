@@ -11,11 +11,12 @@ module.exports = (sequelize, DataTypes) => {
 				defaultValue: DataTypes.NOW,
 				allowNull: false,
 			},
-            raison: {
-                type: DataTypes.ENUM('achat', 'production'),
-                allowNull: false,
-            }
-        },
+			raison: {
+				type: DataTypes.ENUM("achat", "production"),
+				allowNull: false,
+			},
+		},
+		{ freezeTableName: true, tableName: "conso_matiere" }
 	);
     ConsoMAtiere.associate = (models) => {
         console.log(models)

@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 	Commande.associate = (models) => {
 		Commande.addScope(
 			"defaultScope",
-			{	
+			{
 				include: [
 					{
 						model: models.Client,
@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
 					exclude: ["ClientId", "UserId"],
 				},
 			},
-			{ override: true }
+			{ override: true, freezeTableName: true, tableName: "commandes" }
 		);
 		Commande.belongsTo(models.Client, {
 			foreignKey: {

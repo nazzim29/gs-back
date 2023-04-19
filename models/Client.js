@@ -64,6 +64,8 @@ module.exports = (sequelize, DataTypes) => {
 				beforeSave: hashPwd,
 			},
 			paranoid: true,
+			freezeTableName: true,
+			tableName: "clients",
 		}
 	);
 	Client.prototype.verifyHash = async function (password) {

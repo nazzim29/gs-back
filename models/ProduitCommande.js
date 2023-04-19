@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: true,
 			},
 		},
+		{
+			freezeTableName: true,
+			tableName: "produit_commandes",
+		}
 	);
 	return ProduitCommande;
 };

@@ -1,15 +1,17 @@
 module.exports = (sequelize, DataTypes) => {
 	const Matiere = sequelize.define(
 		"Matiere",
-        {
-            designation: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                allowEmpty: false,
+		{
+			designation: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				allowEmpty: false,
 			},
 		},
 		{
 			paranoid: true,
+			freezeTableName: true,
+			tableName: "matieres",
 		}
 	);
 	Matiere.associate = (models) => {

@@ -12,18 +12,21 @@ module.exports = (sequelize, DataTypes) => {
 					references: {
 						model: "produits",
 						key: "id",
-					}
+					},
 				},
 				ClientId: {
 					type: DataTypes.INTEGER.UNSIGNED,
 					allowNull: false,
 					references: {
-						model: 'clients',
-						key:'id'
-					}
-				}
+						model: "clients",
+						key: "id",
+					},
+				},
 			},
-			{}
-    );
+			{
+				freezeTableName: true,
+				tableName: "client_panier",
+			}
+		);
     return Panier
 };

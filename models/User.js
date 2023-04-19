@@ -12,44 +12,46 @@ const hashPwd = (user, options) => {
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "User",
-    {
-      nom: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        notEmpty: true,
-      },
-      prenom: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        notEmpty: true,
-      },
-      username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        notEmpty: true,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        notEmpty: true,
-      },
-      numero: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        notEmpty: true,
-      },
-    },
-    {
-      hooks: {
-        // beforeCreate: hashPwd,
-        beforeUpdate: hashPwd,
-        beforeSave: hashPwd,
-      },
-      paranoid : true,
-    }
-  );
+		"User",
+		{
+			nom: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				notEmpty: true,
+			},
+			prenom: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				notEmpty: true,
+			},
+			username: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+				notEmpty: true,
+			},
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				notEmpty: true,
+			},
+			numero: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				notEmpty: true,
+			},
+		},
+		{
+			hooks: {
+				// beforeCreate: hashPwd,
+				beforeUpdate: hashPwd,
+				beforeSave: hashPwd,
+			},
+			paranoid: true,
+      freezeTableName: true,
+      tableName:'users'
+		}
+	);
 
   User.prototype.verifyHash= async function(password){
     return bcrypt.compareSync(password,this.password);

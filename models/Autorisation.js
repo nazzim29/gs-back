@@ -1,20 +1,24 @@
 module.exports = (sequelize, DataTypes) => {
-  const Autorisation = sequelize.define("Autorisation", {
-    nom: {
-      type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    categorie: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique:false,
-    }
-  });
+  const Autorisation = sequelize.define(
+		"Autorisation",
+		{
+			nom: {
+				type: DataTypes.STRING,
+				unique: true,
+				allowNull: false,
+			},
+			description: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			categorie: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: false,
+			},
+		},
+		{ freezeTableName: true, tableName: "autorisations" }
+	);
 
   Autorisation.associate = (models) => {
     Autorisation.belongsToMany(models.Profile, {

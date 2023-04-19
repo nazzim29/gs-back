@@ -1,20 +1,26 @@
 module.exports = (sequelize, DataTypes) => {
-  const Adresse = sequelize.define("Adresse", {
-    adresse: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    latitude: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    longitude: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  }, {
-    paranoid: true,
-  });
+  const Adresse = sequelize.define(
+		"Adresse",
+		{
+			adresse: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+			latitude: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			longitude: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+		},
+		{
+			paranoid: true,
+			freezeTableName: true,
+			tableName: "adresses",
+		}
+	);
   Adresse.associate = (models) => {
     Adresse.belongsTo(models.Client, {
       foreignKey: {

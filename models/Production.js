@@ -6,18 +6,21 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.DATE,
 				defaultValue: DataTypes.NOW,
 				allowNull: false,
-            },
-            lot: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-            },
-            quantite: {
-                type: DataTypes.FLOAT,
-                allowNull: false,                
-            }
-
+			},
+			lot: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			quantite: {
+				type: DataTypes.FLOAT,
+				allowNull: false,
+			},
 		},
+		{
+			freezeTableName: true,
+			tableName: "productions",
+		}
 	);
 	Production.associate = (models) => {
         Production.belongsTo(models.Produit, {

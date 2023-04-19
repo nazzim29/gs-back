@@ -1,11 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-	const Payement = sequelize.define("Payement", {
-		date: {
-			type: DataTypes.DATE,
-			defaultValue: DataTypes.NOW,
-			allowNull: false,
+	const Payement = sequelize.define(
+		"Payement",
+		{
+			date: {
+				type: DataTypes.DATE,
+				defaultValue: DataTypes.NOW,
+				allowNull: false,
+			},
 		},
-	});
+		{
+			freezeTableName: true,
+			tableName: "payements",
+		}
+	);
 	Payement.associate = (models) => {
 		Payement.addScope(
 			"defaultScope",
