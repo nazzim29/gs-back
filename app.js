@@ -10,10 +10,20 @@ const FixObjectAsString = require("./middlewares/FixObjectAsString");
 var cron = require("node-cron");
 require("./utils/passport")(passport);
 const app = express();
+var whitelist = ['http://admin.vost-dz.com','https://admin.vost-dz.com', 'http://vost-dz.com','https://vost-dz.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 app.use(
-	cors()
+	cors(corsOptions)
 );
-app.options("*", cors());
+app.options("*", cors(corsOptions));
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text({ extended: true }));
