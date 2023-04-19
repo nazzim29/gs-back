@@ -34,6 +34,7 @@ app.use("/uploads", express.static("./uploads"));
 require("./routes")(app);
 //* * * * * *
 //chaque jour a  minuit
+console.log(!!parseInt(process.env.PRODUCTION_MODE))
 cron.schedule("0 0 0 * * *", () => {
 	const fn = Date.now();
 	exec(
@@ -55,8 +56,8 @@ app.get("/", passport.authenticate("jwt", {}), (req, res) => {
 });
 sequelize
 	.sync({
-		force: false,
-		logging: false,
+		force: !!parseInt(process.env.PRODUCTION_MODE),
+		logging: !parseInt(process.env.PRODUCTION_MODE),
 	})
 	.then(() => {
 		return app.listen(process.env.PORT || 2931, (p) => {
