@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 			},
 		},
-		{ freezeTableName: true, tableName: "conso_matiere" }
+		{ freezeTableName: true, tableName: "consomatieres" }
 	);
     ConsoMAtiere.associate = (models) => {
         console.log(models)

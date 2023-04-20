@@ -15,7 +15,7 @@ module.exports = (sequelize,DataTypes)=>{
 			},
 			{
 				freezeTableName: true,
-				tableName: "type_client",
+				tableName: "typeclients",
 			}
 		);
     TypeClient.associate = (models)=>{

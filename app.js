@@ -10,7 +10,13 @@ const FixObjectAsString = require("./middlewares/FixObjectAsString");
 var cron = require("node-cron");
 require("./utils/passport")(passport);
 const app = express();
-var whitelist = ['http://admin.vost-dz.com','https://admin.vost-dz.com', 'http://vost-dz.com','https://vost-dz.com']
+var whitelist = [
+	"http://admin.vost-dz.com",
+	"https://admin.vost-dz.com",
+	"http://vost-dz.com",
+	"https://vost-dz.com",
+	"http://localhost:8080",
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {

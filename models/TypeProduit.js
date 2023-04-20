@@ -10,7 +10,7 @@ module.exports = (sequelize,DataTypes)=>{
 			},
 			{
 				freezeTableName: true,
-				tableName: "type_produits",
+				tableName: "typeproduits",
 			}
 		);
     TypeProduit.associate = (models)=>{
