@@ -3,7 +3,12 @@ module.exports = (sequelize, DataTypes) => {
 		"Commande",
 		{
 			etat: {
-				type: DataTypes.ENUM("en negiciation", "valide admin", "valide client","vendu"),
+				type: DataTypes.ENUM(
+					"en negiciation",
+					"valide admin",
+					"valide client",
+					"vendu"
+				),
 				allowNull: false,
 				defaultValue: "en negiciation",
 			},
@@ -21,10 +26,12 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 				defaultValue: null,
-			}
+			},
 		},
 		{
 			paranoid: true,
+			freezeTableName: true,
+			tableName: "commandes",
 			// hooks: {
 			// 	async afterfindasync(commande,op,fn) {
 			// 		commande.montant = (await commande.getProduits()).reduce(
@@ -78,7 +85,7 @@ module.exports = (sequelize, DataTypes) => {
 					exclude: ["ClientId", "UserId"],
 				},
 			},
-			{ override: true, freezeTableName: true, tableName: "commandes" }
+			{ override: true, }
 		);
 		Commande.belongsTo(models.Client, {
 			foreignKey: {
