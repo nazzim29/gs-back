@@ -41,7 +41,7 @@ app.use("/uploads", (_, res, next) => {
   },express.static("./uploads"));
   const baseRouter = require('express').Router()
   require("./routes")(baseRouter);
-  app.use(cors(corsOptions),baseRouter)
+  app.use("",cors(corsOptions),baseRouter)
 
 //* * * * * *
 //chaque jour a  minuit
