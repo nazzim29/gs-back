@@ -26,12 +26,7 @@ var corsOptions = {
     }
   }
 }
-app.use(
-	cors(corsOptions)
-);
-app.all(
-	cors(corsOptions)
-);
+
 app.options("*", cors(corsOptions));
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +34,8 @@ app.use(bodyParser.text({ extended: true }));
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(FixObjectAsString);
-app.use("/uploads",cors(corsOptions), express.static("./uploads"));
+app.use("/uploads", express.static("./uploads"));
+app.use(cors(corsOptions))
 require("./routes")(app);
 //* * * * * *
 //chaque jour a  minuit
