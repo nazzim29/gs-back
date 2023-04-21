@@ -35,10 +35,17 @@ app.use(bodyParser.text({ extended: true }));
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(FixObjectAsString);
-app.use("/uploads", (_, res, next) => {
-    res.set('Cross-Origin-Resource-Policy', 'cross-origin');
-    next();
-  },express.static("./uploads"));
+app.get("/uploads/:filename", (req, res) => {
+	const filePath = path.join(__dirname, "uploads", req.params.filename);
+	const stat = fs.statSync(filePath);
+	res.set({
+		"Access-Control-Allow-Origin": "*",
+		"Content-Type": "image/png",
+		"Content-Length": stat.size,
+	});
+	const stream = fs.createReadStream(filePath);
+	stream.pipe(res);
+});
   const baseRouter = require('express').Router()
   require("./routes")(baseRouter);
   app.use("",cors(corsOptions),baseRouter)
