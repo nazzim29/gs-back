@@ -36,7 +36,7 @@ app.use(bodyParser.text({ extended: true }));
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(FixObjectAsString);
-app.use("/uploads", express.static("./uploads"));
+app.use("/uploads",cors(corsOptions), express.static("./uploads"));
 require("./routes")(app);
 //* * * * * *
 //chaque jour a  minuit
