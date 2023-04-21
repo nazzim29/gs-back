@@ -29,6 +29,9 @@ var corsOptions = {
 app.use(
 	cors(corsOptions)
 );
+app.all(
+	cors(corsOptions)
+);
 app.options("*", cors(corsOptions));
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
