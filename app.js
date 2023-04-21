@@ -11,16 +11,16 @@ const FixObjectAsString = require("./middlewares/FixObjectAsString");
 var cron = require("node-cron");
 require("./utils/passport")(passport);
 const app = express();
-app.get("/uploads/:filename", (req, res) => {
-	const filePath = path.join(__dirname, "uploads", req.params.filename);
-	const stat = fs.statSync(filePath);
-	res.set({
-		"Access-Control-Allow-Origin": "*",
-		"Content-Length": stat.size,
-	});
-	const stream = fs.createReadStream(filePath);
-	stream.pipe(res);
-});
+// app.get("/uploads/:filename", (req, res) => {
+// 	const filePath = path.join(__dirname, "uploads", req.params.filename);
+// 	const stat = fs.statSync(filePath);
+// 	res.set({
+// 		"Access-Control-Allow-Origin": "*",
+// 		"Content-Length": stat.size,
+// 	});
+// 	const stream = fs.createReadStream(filePath);
+// 	stream.pipe(res);
+// });
 var whitelist = [
 	"http://admin.vost-dz.com",
 	"https://admin.vost-dz.com",
@@ -30,11 +30,11 @@ var whitelist = [
 ];
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    // if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
+    // } else {
+    //   callback(new Error('Not allowed by CORS'))
+    // }
   }
 }
 
