@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
-
+const path = require("path")
 const { sequelize } = require("./models");
 const passport = require("passport");
 const FixObjectAsString = require("./middlewares/FixObjectAsString");
@@ -45,10 +45,10 @@ app.use(bodyParser.text({ extended: true }));
 app.use(morgan("dev"));
 app.use(passport.initialize());
 app.use(FixObjectAsString);
-
-  const baseRouter = require('express').Router()
-  require("./routes")(baseRouter);
-  app.use("",cors(corsOptions),baseRouter)
+app.use('/uploads', express.static(path.join(__dirname, "uploads")))
+const baseRouter = require('express').Router()
+require("./routes")(baseRouter);
+app.use("",cors(corsOptions),baseRouter)
 
 //* * * * * *
 //chaque jour a  minuit
