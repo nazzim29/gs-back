@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt-nodejs");
 
 const hashPwd = (user, options) => {
-  console.log(user)
 	if (!user.changed("password")) return;
 	const salt = bcrypt.genSaltSync(process.env.HASHING_FACTOR);
 	const hash = bcrypt.hashSync(user.password, salt, null);
@@ -38,6 +37,25 @@ module.exports = (sequelize, DataTypes) => {
 				unique: true,
 				notEmpty: true,
 			},
+			image: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			nif: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			nis: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			miseEnAvant: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
+			}
 		},
 		{
 			validate: {
@@ -88,7 +106,6 @@ module.exports = (sequelize, DataTypes) => {
 		});
 		Client.hasMany(models.Adresse);
 		Client.hasMany(models.Payement);
-		console.log(models.ClientPanier);
 		Client.hasMany(models.Commande)
 		// Client.belongsToMany(models.Produit, {
 		// 	through: models.ClientPanier,
