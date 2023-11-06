@@ -4,12 +4,24 @@ faker.locale = "fr";
 
 let i = 1
 const users = [...Array(100).fill(0).map(() => i++)]
+const nifs = [...Array(48)].map(() => {
+  // return a fake numerical string of 15 number
+  return faker.datatype.number({ min: 100000000000000, max: 999999999999999 }).toString()
+})
+const niss = [...Array(48)].map(() => {
+  // return a fake numerical string of 15 number
+  return faker.datatype.number({ min: 100000000000000, max: 999999999999999 }).toString()
+})
 const clients = [...Array(48)].map((user) => ({
 	raisonSociale: faker.name.firstName() + " " + faker.name.lastName(),
 	numero: faker.phone.phoneNumber(),
 	numeroSecondaire: faker.phone.phoneNumber(),
 	username: faker.internet.userName(),
-	password: "$2a$10$vlrSwogWdc4eVU6sMxrU3OHYL2.vaodDigbvR8jPWMXwh1D677Lfm",
+  password: "$2a$10$vlrSwogWdc4eVU6sMxrU3OHYL2.vaodDigbvR8jPWMXwh1D677Lfm",
+  image: '',
+  nif: nifs.pop(),
+  nis: niss.pop(),
+  miseEnAvant: false,
 	createdAt: new Date(),
 	updatedAt: new Date(),
 	UserId: faker.helpers.randomize(users),

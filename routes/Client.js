@@ -5,6 +5,7 @@ const passport = require("passport");
 const ParseParams = require("../middlewares/ParseQuery");
 router.get("/", ParseParams, ClientController.index);
 router.get("/:id([0-9]+)", ClientController.show);
+router.get("/:id([0-9]+)/etat", ClientController.etatActuelle);
 router.post("/", isAuth(), ClientController.create);
 router.patch("/:id([0-9]+)", ClientController.update);
 router.delete("/:id([0-9]+)", ClientController.delete);

@@ -125,16 +125,19 @@ exports.downloadFacture = async (req, res) => {
 
 exports.count = async (req,res) => {
 	//count ventes by month
-	const ventes = await Vente.findAll({
+	// count ventes by month
+	const ventes = Vente.findAll({
 		where: {
 			...req.where,
 		},
 		attributes: [
+			// [Sequelize.fn("COUNT", Sequelize.col("Vente.id")), "count"],
 			[Sequelize.fn("MONTH", Sequelize.col("Vente.createdAt")), "month"],
-			[Sequelize.fn("YEAR", Sequelize.col("Vente.createdAt")), "year"],	
-			[Sequelize.fn("COUNT", Sequelize.col("Vente.id")), "count"],
+			[Sequelize.fn("YEAR", Sequelize.col("Vente.createdAt")), "year"],
 		],
-		group: ["month", "year"],
+		group: [	
+			'year','month'
+		],
 	});
 	return res.json(ventes);
 }
@@ -189,7 +192,7 @@ exports.getfacture = async (req, res) => {
 				base: "private/template/facture/",
 				type: "pdf",
 			})
-			.toStream(async function (err, stream) {
+			.toStream(async function (err, stream) {	
 				console.log(vente)
 				await vente.update({ etat: "en cours de livraison" });
 				stream.pipe(res);

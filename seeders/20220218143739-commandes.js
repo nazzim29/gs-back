@@ -15,9 +15,9 @@ module.exports = {
 		 * }], {});
 		 */
 		const commande = [...Array(100)].map((user) => ({
-			date: faker.date.past(),
-			createdAt: new Date(),
-			updatedAt: new Date(),
+			
+			createdAt: faker.date.past(),
+			updatedAt: faker.date.past(),
 			ClientId: 1,
 			UserId: 1,
 		}));
