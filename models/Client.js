@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				notEmpty: true,
 			},
+			// nrc, numero d'article 
 			username: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -43,12 +44,13 @@ module.exports = (sequelize, DataTypes) => {
 			},
 			nif: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				unique: true,
+				length: 15,
 			},
 			nis: {
 				type: DataTypes.STRING,
-				allowNull: false,
+				allowNull: true,
 				unique: true,
 			},
 			miseEnAvant: {
@@ -60,20 +62,20 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			validate: {
 				async num() {
-					let all = await Client.findAll();
-					if (this.id) all = all.filter((el) => el.id != this.id);
-					if (
-						all.some(
-							(e) =>
-								e.numero == this.numero ||
-								e.numero == this.numeroSecondaire ||
-								e.numeroSecondaire == this.numero ||
-								e.numeroSecondaire == this.numeroSecondaire
-						)
-					)
-						throw new Error(
-							"le numero introduit appartient a un client existant"
-						);
+					// let all = await Client.findAll();
+					// if (this.id) all = all.filter((el) => el.id != this.id);
+					// if (
+					// 	all.some(
+					// 		(e) =>
+					// 			e.numero == this.numero ||
+					// 			e.numero == this.numeroSecondaire ||
+					// 			e.numeroSecondaire == this.numero ||
+					// 			e.numeroSecondaire == this.numeroSecondaire
+					// 	)
+					// )
+					// 	throw new Error(
+					// 		"le numero	introduit appartient a un client existant"
+					// 	);
 				},
 			},
 			hooks: {

@@ -10,6 +10,6 @@ router.post("/", isAuth(), VenteController.create);
 router.post("/:id([0-9]+)", isAuth(), VenteController.update);
 router.delete("/:id([0-9]+)", isAuth(), VenteController.delete);
 router.get("/count", isAuth(), VenteController.count);
-router.get("/count", isAuth(), VenteController.count);
+router.get("/count", /*isAuth(),*/ VenteController.count);
 // router.get("/:id([0-9]+)/facture", isAuth(), VenteController.getfacture);
 module.exports  = router;

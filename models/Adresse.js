@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Adresse = sequelize.define(
+	const Adresse = sequelize.define(
 		"Adresse",
 		{
 			adresse: {
@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: true,
 			},
+			rc: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
+			ai: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 		},
 		{
 			paranoid: true,
@@ -21,21 +29,21 @@ module.exports = (sequelize, DataTypes) => {
 			tableName: "adresses",
 		}
 	);
-  Adresse.associate = (models) => {
-    Adresse.belongsTo(models.Client, {
-      foreignKey: {
-        allowNull: false,
-      },
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
-    });
-    Adresse.belongsTo(models.Wilaya,{
-        foreignKey: {
-          allowNull: false,
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      });
-  };
-  return Adresse;
+	Adresse.associate = (models) => {
+		Adresse.belongsTo(models.Client, {
+			foreignKey: {
+				allowNull: false,
+			},
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
+		Adresse.belongsTo(models.Wilaya, {
+			foreignKey: {
+				allowNull: false,
+			},
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
+	};
+	return Adresse;
 };
