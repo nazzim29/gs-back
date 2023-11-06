@@ -71,6 +71,11 @@ module.exports = (sequelize, DataTypes) => {
 			onDelete: "CASCADE",
 			onUpdate: "CASCADE",
 		})
+		Produit.belongsToMany(models.Vente, {
+			through: models.produits_vente,
+			onDelete: "CASCADE",
+			onUpdate: "CASCADE",
+		});
 	};
 	return Produit;
 };

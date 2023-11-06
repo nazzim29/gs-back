@@ -28,41 +28,41 @@ module.exports = (sequelize, DataTypes) => {
         Vente.addScope(
 					"defaultScope",
 					{
-						include: [
-							{
-								model: models.Client,
-								attributes: [
-									"id",
-									"raisonSociale",
-									"numero",
-									"numeroSecondaire",
-									"typeClientId",
-								],
-								include: "TypeClient",
-								where: { deletedAt: null },
-							},
-							{
-								model: models.User,
-								attributes: {
-									exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
-								},
-							},
-							{
-								model: models.Produit,
-								include: [models.TypeProduit, models.Couleur],
-							},
-						],
+						// include: [
+						// 	{
+						// 		model: models.Client,
+						// 		attributes: [
+						// 			"id",
+						// 			"raisonSociale",
+						// 			"numero",
+						// 			"numeroSecondaire",
+						// 			"typeClientId",
+						// 		],
+						// 		include: "TypeClient",
+						// 		where: { deletedAt: null },
+						// 	},
+						// 	{
+						// 		model: models.User,
+						// 		attributes: {
+						// 			exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+						// 		},
+						// 	},
+						// 	{
+						// 		model: models.Produit,
+						// 		include: [models.TypeProduit, models.Couleur],
+						// 	},
+						// ],
 						attributes: {
 							include: [
 								[
 									sequelize.literal(
-										"(SELECT SUM(produits_ventes.quantite * produits_ventes.prix) AS montant FROM  ventes LEFT JOIN produits_ventes ON ventes.id = produits_ventes.VenteId LEFT JOIN produits ON produits.id = produits_ventes.ProduitId WHERE ventes.id = Vente.id)"
+										"(SELECT SUM(produits_ventes.quantite * produits_ventes.prix) AS montant FROM  ventes LEFT JOIN produits_ventes ON ventes.id = produits_ventes.VenteId LEFT JOIN produits ON produits.id = produits_ventes.ProduitId WHERE ventes.id = Ventes.id)"
 									),
 									"montant",
 								],
 								[
 									sequelize.literal(
-										"(SELECT SUM(ventes_payements.montant) AS versement FROM ventes_payements WHERE ventes_payements.VenteId = Vente.id)"
+										"(SELECT SUM(ventes_payements.montant) AS versement FROM ventes_payements WHERE ventes_payements.VenteId = Ventes.id)"
 									),
 									"versement",
 								],

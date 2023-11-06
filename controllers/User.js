@@ -118,3 +118,40 @@ exports.count = async (req, res) => {
 	const count = await User.count({ where: req.where });
 	return res.json(count);
 }
+
+
+exports.etatActuelle = async (req, res) => {
+	const { id } = req.params
+	const { debut, fin } = req.query
+	
+
+	const count_vente = await Vente.count({ clientId: id })
+
+	const client = await User.findOne({
+		where: {
+			id,
+		},
+		include: [
+			{
+				model: Vente,
+				include:[Produit]
+			}
+		]
+	})
+	const produits = []
+	client.Ventes.forEach(vente => {
+		vente.Produits.forEach(({ dataValues }) => {
+			const {produits_vente,...p} = dataValues
+			const idx = produits.indexOf(el => el.id == p.id)
+			if (idx>=0) {
+				produits[idx].quantite += produits_vente.quantite
+			} else {
+				produits.push({...p,quantite:produits_vente.quantite})
+			}
+		})
+	});
+	return res.json({
+		count_vente,
+		produits
+	})
+}

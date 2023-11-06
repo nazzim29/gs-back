@@ -109,6 +109,7 @@ module.exports = (sequelize, DataTypes) => {
 		Client.hasMany(models.Adresse);
 		Client.hasMany(models.Payement);
 		Client.hasMany(models.Commande)
+		Client.hasMany(models.Vente)
 		// Client.belongsToMany(models.Produit, {
 		// 	through: models.ClientPanier,
 		// 	onDelete: "CASCADE",

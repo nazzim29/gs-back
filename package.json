@@ -1,37 +1,37 @@
 {
-  "name": "gs-back",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "test": "nodemon --trace-warnings app.js",
-    "debug": "node --inspect app.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.7.2",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "html-pdf": "^3.0.1",
-    "morgan": "^1.10.0",
-    "multer": "^1.4.4",
-    "mustache": "^4.2.0",
-    "mysql2": "^2.2.5",
-    "node-cron": "^3.0.0",
-    "nodemon": "^2.0.13",
-    "passport": "^0.4.1",
-    "passport-http-bearer": "^1.0.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "sequelize": "^6.6.5"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^6.0.0-alpha.6",
-    "faker": "^6.6.6"
-  }
+	"name": "gs-back",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js",
+		"test": "nodemon --trace-warnings app.js",
+		"debug": "node --inspect app.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt-nodejs": "0.0.3",
+		"bluebird": "^3.7.2",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"dotenv": "^10.0.0",
+		"express": "^4.17.1",
+		"html-pdf": "^3.0.1",
+		"morgan": "^1.10.0",
+		"multer": "^1.4.4",
+		"mustache": "^4.2.0",
+		"mysql2": "^2.2.5",
+		"node-cron": "^3.0.0",
+		"nodemon": "^2.0.13",
+		"passport": "^0.4.1",
+		"passport-http-bearer": "^1.0.1",
+		"passport-jwt": "^4.0.0",
+		"passport-local": "^1.0.0",
+		"sequelize": "^6.6.5"
+	},
+	"devDependencies": {
+		"@faker-js/faker": "^6.0.0-alpha.6",
+		"faker": "^6.6.6"
+	}
 }
